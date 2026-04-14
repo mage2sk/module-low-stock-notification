@@ -1,0 +1,34 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * Copyright © Panth Infotech. All rights reserved.
+ */
+-->
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Store:etc/config.xsd">
+    <default>
+        <lowstocknotification>
+            <general>
+                <enabled>1</enabled>
+                <allow_guests>1</allow_guests>
+            </general>
+            <email>
+                <sender>general</sender>
+                <email_template>lowstocknotification_email_email_template</email_template>
+            </email>
+            <design>
+                <box_background_color>#f0fdf4</box_background_color>
+                <box_border_color>#86efac</box_border_color>
+                <text_color>#166534</text_color>
+                <heading_color>#14532d</heading_color>
+                <button_bg_from>#10b981</button_bg_from>
+                <button_bg_to>#059669</button_bg_to>
+                <button_text_color>#ffffff</button_text_color>
+                <button_hover_effect>1</button_hover_effect>
+            </design>
+            <placement>
+                <enable_on_product_page>1</enable_on_product_page>
+                <display_position>after_price</display_position>
+            </placement>
+        </lowstocknotification>
+    </default>
+</config>

@@ -1,0 +1,57 @@
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Config:etc/system_file.xsd">
+    <system>
+        <tab id="panth" translate="label" sortOrder="300">
+            <label>🚀 Panth Extensions</label>
+        </tab>
+        <section id="lowstocknotification" translate="label" type="text" sortOrder="300" showInDefault="1" showInWebsite="1" showInStore="1">
+            <label>Low Stock Notification</label>
+            <tab>panth</tab>
+            <resource>Panth_LowStockNotification::config</resource>
+
+            <group id="general" translate="label comment" type="text" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1">
+                <label>General Settings</label>
+                <comment>When enabled, out-of-stock products show a "Notify Me" form so customers can subscribe to stock alerts.</comment>
+                <field id="enabled" translate="label comment" type="select" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Enable Stock Alerts</label>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                    <config_path>lowstocknotification/general/enabled</config_path>
+                    <comment>Show stock alert subscription form on out-of-stock product pages.</comment>
+                </field>
+                <field id="allow_guests" translate="label comment" type="select" sortOrder="20" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Allow Guest Subscriptions</label>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                    <config_path>lowstocknotification/general/allow_guests</config_path>
+                    <comment>Allow visitors who are not logged in to subscribe by entering their email address.</comment>
+                </field>
+            </group>
+
+            <group id="email" translate="label comment" type="text" sortOrder="20" showInDefault="1" showInWebsite="1" showInStore="1">
+                <label>Email Notifications</label>
+                <comment><![CDATA[Configure how back-in-stock notification emails are sent. The template can be customized under <strong>Marketing > Email Templates</strong>.]]></comment>
+                <field id="sender" translate="label comment" type="select" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Email Sender Identity</label>
+                    <source_model>Magento\Config\Model\Config\Source\Email\Identity</source_model>
+                    <config_path>lowstocknotification/email/sender</config_path>
+                    <comment>Choose which store email identity sends the back-in-stock notifications.</comment>
+                </field>
+                <field id="email_template" translate="label comment" type="select" sortOrder="20" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Email Template</label>
+                    <source_model>Magento\Config\Model\Config\Source\Email\Template</source_model>
+                    <config_path>lowstocknotification/email/email_template</config_path>
+                    <comment>Select the transactional email template for back-in-stock notifications.</comment>
+                </field>
+            </group>
+
+            <group id="design_note" translate="label comment" type="text" sortOrder="30" showInDefault="1" showInWebsite="1" showInStore="1">
+                <label>Design &amp; Colors</label>
+                <comment><![CDATA[
+                    Colors for the stock alert form are managed centrally in your theme configuration file.<br/><br/>
+                    <strong>File:</strong> <code>app/design/frontend/Panth/Infotech/web/tailwind/theme-config.json</code><br/>
+                    <strong>Section:</strong> <code>modules.low-stock-notification</code><br/><br/>
+                    After changing colors, run <code>node generate-theme-css.js</code> to regenerate CSS variables.
+                ]]></comment>
+            </group>
+        </section>
+    </system>
+</config>
