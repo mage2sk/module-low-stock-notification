@@ -63,7 +63,7 @@ $customer = $block->getCustomer();
                             <?php if ($alert->getCustomerId()): ?>
                                 <?= $block->escapeHtml(__('Registered (ID: %1)', $alert->getCustomerId())) ?>
                                 <?php if ($customer): ?>
-                                    — <?= $block->escapeHtml($customer->getFirstname() . ' ' . $customer->getLastname()) ?>
+                                    · <?= $block->escapeHtml($customer->getFirstname() . ' ' . $customer->getLastname()) ?>
                                 <?php endif; ?>
                             <?php else: ?>
                                 <?= $block->escapeHtml(__('Guest')) ?>
