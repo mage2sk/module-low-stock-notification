@@ -1,34 +1,49 @@
 <!-- SEO Meta -->
 <!--
-  Title: Panth Low Stock Notification - Back-in-Stock Email Alerts for Magento 2 | Panth Infotech
-  Description: Panth Low Stock Notification for Magento 2 lets customers subscribe for back-in-stock email alerts on out-of-stock products. Admin dashboard, cron-based email delivery, configurable button placement, customizable email templates, and full Hyva + Luma support. Compatible with Magento 2.4.4 - 2.4.8 and PHP 8.1 - 8.4. Built by Top Rated Plus Magento developer Kishan Savaliya.
-  Keywords: magento 2 back in stock, magento 2 low stock alert, magento 2 email notifications, magento 2 stock alert, out of stock notification, back in stock notification magento, product alert magento 2, hyva back in stock, luma stock notification, panth infotech
+  Title: Magento 2 Low Stock Notification: Back-in-Stock Email Alerts for Hyva + Luma | Panth Infotech
+  Description: Panth Low Stock Notification lets customers subscribe for back-in-stock email alerts on out-of-stock products. Admin dashboard, cron-based email delivery, configurable placement, customizable email template, and full Hyva + Luma support. Compatible with Magento 2.4.4 - 2.4.8 and PHP 8.1 - 8.4. Built by Top Rated Plus Magento developer Kishan Savaliya.
+  Keywords: magento 2 back in stock, magento 2 low stock alert, magento 2 email notifications, magento 2 stock alert, out of stock notification, back in stock notification magento 2, notify me when available magento, product alert magento 2, stock availability email, restock email magento, hyva back in stock, luma stock notification, panth infotech, mage2kishan
   Author: Kishan Savaliya (Panth Infotech)
-  Canonical: https://github.com/mage2sk/module-low-stock-notification
+  Canonical: https://kishansavaliya.com/magento-2-low-stock-notification.html
 -->
 
-# Panth Low Stock Notification — Back-in-Stock Email Alerts for Magento 2
+# Magento 2 Low Stock Notification: Back-in-Stock Email Alerts (Hyva + Luma)
 
 [![Magento 2.4.4 - 2.4.8](https://img.shields.io/badge/Magento-2.4.4%20--%202.4.8-orange?logo=magento&logoColor=white)](https://magento.com)
 [![PHP 8.1 - 8.4](https://img.shields.io/badge/PHP-8.1%20--%208.4-blue?logo=php&logoColor=white)](https://php.net)
-[![Hyva + Luma](https://img.shields.io/badge/Theme-Hyva%20%2B%20Luma-14B8A6)]()
+[![Hyva + Luma](https://img.shields.io/badge/Themes-Hyva%20%2B%20Luma-14b8a6)](https://www.hyva.io)
+[![Live Demo & Details](https://img.shields.io/badge/Live%20Demo%20%26%20Details-magento--2--low--stock--notification-0D9488?style=flat)](https://kishansavaliya.com/magento-2-low-stock-notification.html)
 [![Packagist](https://img.shields.io/badge/Packagist-mage2kishan%2Fmodule--low--stock--notification-orange?logo=packagist&logoColor=white)](https://packagist.org/packages/mage2kishan/module-low-stock-notification)
 [![Upwork Top Rated Plus](https://img.shields.io/badge/Upwork-Top%20Rated%20Plus-14a800?logo=upwork&logoColor=white)](https://www.upwork.com/freelancers/~016dd1767321100e21)
-[![Panth Infotech Agency](https://img.shields.io/badge/Agency-Panth%20Infotech-14a800?logo=upwork&logoColor=white)](https://www.upwork.com/agencies/1881421506131960778/)
 [![Website](https://img.shields.io/badge/Website-kishansavaliya.com-0D9488)](https://kishansavaliya.com)
-[![Get a Quote](https://img.shields.io/badge/Get%20a%20Quote-Free%20Estimate-DC2626)](https://kishansavaliya.com/get-quote)
 
-> **Never lose an out-of-stock sale again.** Let customers subscribe for **back-in-stock email alerts** directly from the product page, manage every subscription from a powerful admin dashboard, send notifications automatically via cron, place the "Notify Me" button exactly where you want it, and customize the email template to match your brand — fully compatible with both **Hyva** and **Luma** themes.
+> **Let customers subscribe for back-in-stock alerts so you do not lose the sale when a product is out of stock.** A "Notify Me" form appears on out-of-stock product pages, subscriptions are stored and managed in the admin, and a cron job sends the email automatically once the product comes back in stock. Native templates for **Hyva (Alpine.js)** and **Luma** are both included.
 
-**Panth Low Stock Notification** turns every "Out of Stock" product page into a future sale. When a product is unavailable, a **Notify Me When Available** form appears so shoppers (guest or logged-in) can submit their email and get notified automatically the moment the product is restocked. Store admins get a dedicated subscription dashboard to view, filter, export, and manually trigger alerts. A built-in **cron job** watches stock-status changes and dispatches branded email notifications using a fully customizable email template — no manual work required.
-
-The extension supports **configurable button placement** (before/after add-to-cart, custom container), works seamlessly with **simple, configurable, bundle, and grouped products**, and ships with production-ready templates for both **Hyva (Alpine.js + Tailwind)** and **Luma (Knockout + LESS)** storefronts. MEQP-compliant, translation-ready, and built on the Panth Core foundation.
+**Product page:** [kishansavaliya.com/magento-2-low-stock-notification.html](https://kishansavaliya.com/magento-2-low-stock-notification.html)
 
 ---
 
-## 🚀 Need Custom Magento 2 Development?
+## Quick Answer
 
-> **Get a free quote for your project in 24 hours** — custom modules, Hyva themes, performance optimization, M1→M2 migrations, and Adobe Commerce Cloud.
+**What is Panth Low Stock Notification?** It is a Magento 2 extension that shows a "Notify Me When Available" form on out-of-stock product pages. Customers enter their email, and the module emails them automatically when the product is back in stock.
+
+**What does it add to my store?**
+
+- A **Notify Me form** on out-of-stock product pages for both guests and logged-in customers.
+- An **admin dashboard** with KPI totals, a 7-day trend chart, most-requested products, and recent activity.
+- An **alert management grid** where you can view, send, delete, and bulk-send notifications.
+- A **cron job** that checks stock status and dispatches emails automatically every 6 hours.
+- A **customizable email template** using Magento's native transactional email system.
+
+**Which themes are supported?** Both **Hyva** (Alpine.js, no jQuery) and **Luma**. The correct template is picked based on the active theme.
+
+**What does it need?** Magento 2.4.4 to 2.4.8, PHP 8.1 to 8.4, and the free `mage2kishan/module-core` package.
+
+---
+
+## Need Custom Magento 2 Development?
+
+> **Get a free quote for your project in 24 hours** for custom modules, Hyva themes, performance work, M1 to M2 migrations, and Adobe Commerce Cloud.
 
 <p align="center">
   <a href="https://kishansavaliya.com/get-quote">
@@ -40,7 +55,7 @@ The extension supports **configurable button placement** (before/after add-to-ca
 <tr>
 <td width="50%" align="center">
 
-### 🏆 Kishan Savaliya
+### Kishan Savaliya
 **Top Rated Plus on Upwork**
 
 [![Hire on Upwork](https://img.shields.io/badge/Hire%20on%20Upwork-Top%20Rated%20Plus-14a800?style=for-the-badge&logo=upwork&logoColor=white)](https://www.upwork.com/freelancers/~016dd1767321100e21)
@@ -51,7 +66,7 @@ Adobe Certified • Hyva Specialist
 </td>
 <td width="50%" align="center">
 
-### 🏢 Panth Infotech Agency
+### Panth Infotech Agency
 **Magento Development Team**
 
 [![Visit Agency](https://img.shields.io/badge/Visit%20Agency-Panth%20Infotech-14a800?style=for-the-badge&logo=upwork&logoColor=white)](https://www.upwork.com/agencies/1881421506131960778/)
@@ -69,16 +84,13 @@ Performance • SEO • Adobe Commerce Cloud
 
 ## Table of Contents
 
+- [Who Is It For](#who-is-it-for)
 - [Key Features](#key-features)
-- [How It Works](#how-it-works)
 - [Compatibility](#compatibility)
 - [Installation](#installation)
 - [Configuration](#configuration)
-- [Admin Dashboard](#admin-dashboard)
-- [Email Templates](#email-templates)
-- [Cron Delivery](#cron-delivery)
-- [Frontend — Hyva & Luma](#frontend--hyva--luma)
-- [Troubleshooting](#troubleshooting)
+- [How It Works](#how-it-works)
+- [Admin Dashboard and Alert Management](#admin-dashboard-and-alert-management)
 - [FAQ](#faq)
 - [Support](#support)
 - [About Panth Infotech](#about-panth-infotech)
@@ -86,90 +98,59 @@ Performance • SEO • Adobe Commerce Cloud
 
 ---
 
-## Key Features
+## Who Is It For
 
-### Customer-Facing
-- **Notify Me form** on every out-of-stock product page (simple, configurable, bundle, grouped)
-- **Guest & logged-in support** — email is auto-populated for logged-in customers
-- **Per-store-view subscriptions** — alerts are respected across multi-store installations
-- **Double-opt protection** — duplicate submissions are deduplicated silently
-- **My Account panel** — logged-in customers can view and cancel their own alerts
-- **Fully translatable** — all strings use Magento `__()` translation
-
-### Admin Dashboard
-- **Subscriptions grid** — filter by product, email, store, status, date range
-- **Bulk actions** — delete, mark as sent, resend alert
-- **Manual trigger** — force-send notifications for selected subscriptions
-- **CSV / XML export** — standard Magento export actions
-- **Product-level stats** — see how many customers are waiting per SKU
-- **Low-stock dashboard widget** (optional) — highlight high-demand out-of-stock products
-
-### Cron-Based Email Delivery
-- **Automatic detection** — cron watches stock status transitions and dispatches alerts when a product flips from out-of-stock → in-stock
-- **Batch processing** — configurable batch size to protect SMTP deliverability
-- **Retry logic** — failed sends are retried on the next cron cycle
-- **Audit log** — every send is recorded with timestamp and delivery status
-- **Configurable schedule** — default every 5 minutes, adjustable via admin
-
-### Configurable Placement
-- **Before or after Add-to-Cart** — pick the position via admin
-- **Custom container** — emit the form into any layout container by name
-- **Enable/disable per product type** — simple, configurable, bundle, grouped, virtual, downloadable
-- **Category & attribute-based rules** (optional) — show only on selected categories or brands
-
-### Email Templates
-- **Customizable template** — Magento native transactional email template
-- **Variables supported** — product name, URL, image, price, customer name, store name
-- **Per-store-view templates** — different content per store or language
-- **HTML + plain-text** — accessible multi-part email
-- **Preview & test-send** from admin
-
-### Theme Support
-- **Hyva** — Alpine.js + Tailwind CSS, no RequireJS, no jQuery
-- **Luma** — Knockout + LESS, full responsive design
-- **Auto-detection** via `Panth_Core` — correct template served automatically
-
-### Security & Performance
-- **MEQP compliant** — passes Adobe's Magento Extension Quality Program
-- **CSRF & form-key protected**
-- **Email validation + rate limiting** to prevent abuse
-- **Indexed subscription table** — scales to millions of subscriptions
-- **Zero frontend performance impact** — form is rendered only on out-of-stock pages
+- **Stores with products that go out of stock regularly** and want to recover demand instead of losing those shoppers to a competitor.
+- **Fashion, apparel, and limited-edition stores** where restocks happen on a schedule and customers want to be first in line.
+- **Merchants running Hyva** who need a stock alert form built on Alpine.js with no jQuery or Knockout added back in.
+- **Admins who want visibility** into which out-of-stock products have the most waiting customers, so they can prioritize restocking decisions.
+- **Multi-store setups** where each store view needs its own alert scope and email template.
 
 ---
 
-## How It Works
+## Key Features
 
-```
-┌───────────────────────────┐
-│ Customer visits product   │
-│ page (Out of Stock)       │
-└────────────┬──────────────┘
-             │
-             ▼
-┌───────────────────────────┐
-│ "Notify Me" form is shown │
-│ (Hyva or Luma template)   │
-└────────────┬──────────────┘
-             │ submits email
-             ▼
-┌───────────────────────────┐
-│ Subscription saved to DB  │
-│ (panth_low_stock_subscr.) │
-└────────────┬──────────────┘
-             │
-             ▼
-┌───────────────────────────┐
-│ Cron watches stock status │
-│ transitions every 5 min   │
-└────────────┬──────────────┘
-             │ product back in stock
-             ▼
-┌───────────────────────────┐
-│ Email sent via template   │
-│ → Subscription marked SENT│
-└───────────────────────────┘
-```
+### Notify Me Form on Product Pages
+- **"Notify Me When Available" form** shown on out-of-stock product pages for simple and configurable products.
+- **Guest and logged-in support** so any visitor can subscribe. Guest subscriptions can be turned off in config if needed.
+- **Email pre-filled** for logged-in customers so they can subscribe in one click.
+- **Duplicate protection** so the same email is not recorded twice for the same product and store.
+- **AJAX submission** with inline success and error messages.
+- **Fully translatable** using Magento's `__()` function.
+
+### Admin Dashboard
+- **KPI totals** showing total, pending, sent, cancelled, and today's subscriptions at a glance.
+- **7-day trend chart** so you can see whether alert volume is growing or shrinking.
+- **Most-requested products table** listing the out-of-stock products with the most subscribers.
+- **Critical stock alerts panel** highlighting products with 5 or more pending subscribers.
+- **Recent activity feed** showing the latest subscription and send events.
+
+### Admin Alert Management Grid
+- **Full subscriptions grid** under Panth Extensions > Low Stock Alerts > Manage Alerts.
+- **Row actions** for view, send email, and delete on individual records.
+- **Bulk actions** for mass delete and mass send.
+- **Filter and search** by product, email, store, and status.
+
+### Cron-Based Email Delivery
+- **Automatic stock check** runs every 6 hours, finds products that are now back in stock, and sends pending alerts.
+- **Cron group:** registered in the default Magento cron group so it runs on your existing cron schedule.
+- **Manual trigger** available in the admin grid if you need to send alerts immediately.
+
+### Customizable Email Template
+- **Magento native transactional email template** so it fits your store branding.
+- **Per-store-view templates** so different stores or languages can use different content.
+- **Sender identity** is configurable in admin.
+
+### Hyva and Luma Ready
+- **Native Hyva template** built on Alpine.js, no jQuery, no RequireJS, no Knockout.
+- **Native Luma template** using standard Magento LESS and JS patterns.
+- **Theme detection** through `Panth_Core` so the right template is served automatically.
+- **Works on** Magento Open Source, Adobe Commerce, and Adobe Commerce Cloud.
+
+### Built to Last
+- **Clean, MEQP-style code** with constructor dependency injection only.
+- **Indexed database table** (`panth_stock_alert`) for fast queries even with many subscriptions.
+- **Translation ready**, every label uses Magento's `__()` function.
 
 ---
 
@@ -179,13 +160,11 @@ Performance • SEO • Adobe Commerce Cloud
 |---|---|
 | Magento Open Source | 2.4.4, 2.4.5, 2.4.6, 2.4.7, 2.4.8 |
 | Adobe Commerce | 2.4.4, 2.4.5, 2.4.6, 2.4.7, 2.4.8 |
-| Adobe Commerce Cloud | 2.4.4 — 2.4.8 |
+| Adobe Commerce Cloud | 2.4.4 to 2.4.8 |
 | PHP | 8.1.x, 8.2.x, 8.3.x, 8.4.x |
-| MySQL | 8.0+ |
-| MariaDB | 10.4+ |
-| Hyva Theme | 1.3+ |
+| Hyva Theme | 1.3+ (native Alpine.js support) |
 | Luma Theme | Native support |
-| Required Dependency | [`mage2kishan/module-core`](https://packagist.org/packages/mage2kishan/module-core) (free) |
+| Required Dependency | `mage2kishan/module-core` (free) |
 
 ---
 
@@ -204,10 +183,10 @@ bin/magento cache:flush
 
 ### Manual Installation via ZIP
 
-1. Download the latest release from [Packagist](https://packagist.org/packages/mage2kishan/module-low-stock-notification) or the [Adobe Commerce Marketplace](https://commercemarketplace.adobe.com).
-2. Extract to `app/code/Panth/LowStockNotification/`.
-3. Install `Panth_Core` the same way if not already present.
-4. Run the same commands shown above.
+1. Download the latest release from [Packagist](https://packagist.org/packages/mage2kishan/module-low-stock-notification) or from the [product page](https://kishansavaliya.com/magento-2-low-stock-notification.html).
+2. Extract it to `app/code/Panth/LowStockNotification/` in your Magento install.
+3. Make sure `Panth_Core` is installed too (required dependency).
+4. Run the commands above starting from `bin/magento module:enable`.
 
 ### Verify Installation
 
@@ -216,183 +195,89 @@ bin/magento module:status Panth_LowStockNotification
 # Expected: Module is enabled
 ```
 
-Then visit:
+After install, open:
 ```
-Admin → Stores → Configuration → Panth Extensions → Low Stock Notification
+Admin -> Stores -> Configuration -> Panth Extensions -> Low Stock Notification
 ```
 
 ---
 
 ## Configuration
 
-Navigate to `Stores → Configuration → Panth Extensions → Low Stock Notification`.
+Go to **Stores -> Configuration -> Panth Extensions -> Low Stock Notification**.
 
-### General
+| Setting | Group | Default | Description |
+|---|---|---|---|
+| Enable Stock Alerts | General | Yes | Master toggle. When enabled, the Notify Me form appears on out-of-stock product pages. |
+| Allow Guest Subscriptions | General | Yes | Allow visitors who are not logged in to subscribe by entering their email. |
+| Email Sender Identity | Email Notifications | General Contact | Which store email identity sends the back-in-stock notifications. |
+| Email Template | Email Notifications | Default template | The transactional email template used for notifications. Customize under Marketing > Email Templates. |
 
-| Setting | Default | Description |
-|---|---|---|
-| Enable Module | Yes | Master on/off toggle |
-| Allow Guest Subscriptions | Yes | Let unauthenticated customers subscribe |
-| Require Customer Login | No | Force shoppers to log in before subscribing |
-| Success Message | Thank you — we'll email you when it's back! | Shown after successful submission |
-
-### Button / Form Placement
-
-| Setting | Default | Description |
-|---|---|---|
-| Position | After Add to Cart | Before Add to Cart / After Add to Cart / Custom Container |
-| Custom Container Name | (empty) | Layout container to render into when Position = Custom |
-| Enabled Product Types | simple, configurable, bundle, grouped | Multi-select |
-| Restrict to Categories | (none) | Optional category filter |
-
-### Email
-
-| Setting | Default | Description |
-|---|---|---|
-| Sender | General Contact | Magento email sender identity |
-| Email Template | Panth Low Stock Notification — Default | Customize per store view |
-| Send Copy To | (empty) | Optional BCC for admin audit |
-
-### Cron
-
-| Setting | Default | Description |
-|---|---|---|
-| Cron Schedule | `*/5 * * * *` | Cron expression for the delivery worker |
-| Batch Size | 50 | Max emails sent per cron run |
-| Retry Failed Sends | Yes | Re-attempt on the next cycle |
+The Design and Colors section in configuration shows instructions for adjusting form colors via the theme config file. No fields are stored in the database for colors; they come from the theme CSS.
 
 ---
 
-## Admin Dashboard
+## How It Works
 
-Navigate to **Panth Infotech → Low Stock Notification → Subscriptions**.
-
-You'll find:
-
-- **Full subscriptions grid** — Product SKU, email, customer name, store, status (Pending / Sent / Cancelled), created date
-- **Bulk actions** — Delete, Mark as Sent, Resend Email
-- **Row actions** — View details, Send Now, Cancel
-- **Filters** — by product, email, store, status, date range
-- **Exports** — CSV / XML via the standard Magento export button
-
-A **waiting customers** widget can also be added to any dashboard page that shows top out-of-stock products sorted by number of subscribers — perfect for prioritising restocks.
+1. A customer visits an out-of-stock product page. The **Notify Me When Available** form is rendered by the `Panth\LowStockNotification\Block\StockAlert` block.
+2. The customer enters their email and submits. The form posts to the frontend controller which saves a record to the `panth_stock_alert` table.
+3. A Magento cron job (`lowstocknotification_stock_alert`) runs every 6 hours. It queries products that are now back in stock and finds matching pending subscriptions.
+4. For each pending subscription, the cron sends the notification email using the configured transactional email template and marks the record as sent.
+5. Admins can see all subscriptions, dashboard stats, and send emails manually from the admin grid at **Panth Extensions > Low Stock Alerts**.
 
 ---
 
-## Email Templates
+## Admin Dashboard and Alert Management
 
-The module ships with a default transactional email template:
+Open **Admin -> Panth Extensions -> Low Stock Alerts -> Dashboard** for the overview.
 
-- **Identifier:** `panth_lowstock_notification_template`
-- **Location:** `view/frontend/email/notification.html`
-- **Variables available:**
-  - `{{var product.name}}`
-  - `{{var product.url}}`
-  - `{{var product.image}}`
-  - `{{var product.price}}`
-  - `{{var customer.name}}`
-  - `{{var store.name}}`
-  - `{{var unsubscribe_url}}`
+The dashboard shows:
 
-To customize:
+- **KPI totals** for total, pending, sent, cancelled, and today's alerts.
+- **7-day trend chart** to track subscription volume over the past week.
+- **Most-requested products** ranked by number of pending subscribers.
+- **Critical alerts** highlighting products with 5 or more people waiting.
+- **Recent activity** showing the latest events.
 
-1. Go to **Marketing → Communications → Email Templates**
-2. Click **Add New Template**
-3. Load default template **Panth Low Stock Notification — Default**
-4. Edit HTML / text content
-5. Save and assign it in the module configuration
+Open **Admin -> Panth Extensions -> Low Stock Alerts -> Manage Alerts** for the full grid.
 
----
+The grid shows every subscription with its product SKU, email address, customer name, store, status, and created date. From here you can:
 
-## Cron Delivery
-
-Panth Low Stock Notification registers a cron group:
-
-```xml
-<group id="panth_low_stock">
-    <job name="panth_low_stock_notify" instance="Panth\LowStockNotification\Cron\SendNotifications" method="execute">
-        <schedule>*/5 * * * *</schedule>
-    </job>
-</group>
-```
-
-On every run, the cron:
-
-1. Queries products that have transitioned from out-of-stock → in-stock since the last check
-2. Loads matching **Pending** subscriptions in batches
-3. Dispatches each email via the configured template & sender
-4. Marks subscriptions as **Sent** (or **Failed** for retry)
-5. Writes an entry to `var/log/panth_low_stock.log`
-
-Ensure your server cron is running:
-
-```bash
-bin/magento cron:run --group=panth_low_stock
-```
-
----
-
-## Frontend — Hyva & Luma
-
-The correct template is auto-selected by **`Panth_Core`'s** theme detection:
-
-- **Hyva:** `view/frontend/templates/product/notify.phtml` — Alpine.js form, Tailwind classes, no RequireJS
-- **Luma:** `view/frontend/templates/product/notify.phtml` — Knockout/jQuery form, responsive LESS styles
-
-Both templates:
-- Show only when the product is out of stock
-- Pre-fill the email field for logged-in customers
-- Submit via AJAX to `/panth_lowstock/subscribe/save`
-- Display success / error messages inline
-- Are fully translatable
-
----
-
-## Troubleshooting
-
-| Issue | Cause | Resolution |
-|---|---|---|
-| "Notify Me" form not visible | Product is in stock or module disabled | Confirm stock status and module config |
-| Emails not being sent | Magento cron not running | Run `bin/magento cron:run --group=panth_low_stock` |
-| Subscriptions not saving | Form key / cache issue | `bin/magento cache:flush` |
-| Wrong template (Luma on Hyva) | `Panth_Core` not installed | `composer require mage2kishan/module-core` |
-| Duplicate emails | SMTP retry collision | Enable "Retry Failed Sends" = No temporarily |
-
-Enable **Debug Mode** in Panth Core settings to see detailed logs at `var/log/panth_low_stock.log`.
+- **View** the details of a single alert.
+- **Send** an alert email for a single record manually.
+- **Delete** a record.
+- **Mass delete** or **mass send** using bulk actions.
 
 ---
 
 ## FAQ
 
-### Does it work for guests?
-Yes, guests can subscribe with their email address. You can optionally require login via admin config.
+### Does the Notify Me form work on Hyva themes?
+Yes. The module ships a native Alpine.js template for Hyva, with no jQuery, Knockout, or RequireJS. The active theme is detected through `Panth_Core` and the correct template is served automatically.
 
-### Does it support configurable / bundle products?
-Yes — simple, configurable, bundle, grouped, virtual, and downloadable product types are all supported.
-
-### Will customers get duplicate emails?
-No. Each subscription is unique per `(email, product, store)` and marked **Sent** after delivery. Duplicates are silently deduplicated.
-
-### Is it compatible with Hyva?
-Yes — Alpine.js + Tailwind template included, detected automatically via Panth Core.
-
-### Does it require Panth Core?
-Yes. [Panth Core](https://packagist.org/packages/mage2kishan/module-core) is a **free** required dependency (Composer handles it automatically).
-
-### Can I customize the email?
-Yes — standard Magento transactional email template editor; supports HTML, plain-text, and per-store-view overrides.
+### Can guests subscribe without logging in?
+Yes, by default. You can turn guest subscriptions off in **Stores -> Configuration -> Panth Extensions -> Low Stock Notification -> General -> Allow Guest Subscriptions**.
 
 ### How often are emails sent?
-By default every 5 minutes. The schedule and batch size are fully configurable.
+The cron job runs every 6 hours. You can also trigger a send manually from the Manage Alerts grid in admin.
 
-### Can customers unsubscribe?
-Yes. Logged-in customers manage their subscriptions in **My Account → Stock Alerts**. Every email also includes an unsubscribe link.
+### Will a customer get the same email twice?
+No. Each subscription is unique per email, product, and store. Once an alert is sent, the record is marked as Sent and will not be processed again.
 
-### Is it multi-store / multi-language safe?
-Yes — subscriptions are scoped per store view, templates can be localized, and all strings are translatable.
+### Which product types show the Notify Me form?
+The form appears on product pages where the product is out of stock. Simple and configurable products are the primary supported types.
 
-### Does the extension slow down product pages?
-No. The form is rendered server-side only on out-of-stock pages. No JavaScript is loaded for in-stock products.
+### Can I customize the email template?
+Yes. The module ships a default transactional email template. Go to **Marketing -> Communications -> Email Templates**, add a new template from the module default, edit the content, and assign it in the Low Stock Notification configuration.
+
+### Does it work with multi-store setups?
+Yes. Subscriptions are scoped to a store view, and the email template and sender can be configured per store view.
+
+### Does it require Panth Core?
+Yes. `mage2kishan/module-core` is a free required dependency. Composer installs it for you automatically.
+
+### What database table does it use?
+Subscriptions are stored in `panth_stock_alert`, which has indexes on customer ID, product ID, email, and status for fast lookups.
 
 ---
 
@@ -400,6 +285,7 @@ No. The form is rendered server-side only on out-of-stock pages. No JavaScript i
 
 | Channel | Contact |
 |---|---|
+| Product Page | [kishansavaliya.com/magento-2-low-stock-notification.html](https://kishansavaliya.com/magento-2-low-stock-notification.html) |
 | Email | kishansavaliyakb@gmail.com |
 | Website | [kishansavaliya.com](https://kishansavaliya.com) |
 | WhatsApp | +91 84012 70422 |
@@ -409,7 +295,9 @@ No. The form is rendered server-side only on out-of-stock pages. No JavaScript i
 
 Response time: 1-2 business days.
 
-### 💼 Need Custom Magento Development?
+### Need Custom Magento Development?
+
+Looking for **custom Magento module development**, **Hyva theme work**, **store migrations**, or **performance tuning**? Get a free quote in 24 hours:
 
 <p align="center">
   <a href="https://kishansavaliya.com/get-quote">
@@ -426,50 +314,46 @@ Response time: 1-2 business days.
     <img src="https://img.shields.io/badge/Visit-Panth%20Infotech%20Agency-14a800?style=for-the-badge&logo=upwork&logoColor=white" alt="Visit Agency" />
   </a>
   &nbsp;&nbsp;
-  <a href="https://kishansavaliya.com">
-    <img src="https://img.shields.io/badge/Visit%20Website-kishansavaliya.com-0D9488?style=for-the-badge" alt="Visit Website" />
+  <a href="https://kishansavaliya.com/magento-2-low-stock-notification.html">
+    <img src="https://img.shields.io/badge/View%20Product%20Page-magento--2--low--stock--notification-0D9488?style=for-the-badge" alt="View Product Page" />
   </a>
 </p>
-
----
-
-## License
-
-Proprietary — see `LICENSE.txt`. Single-install license unless otherwise specified on the Adobe Commerce Marketplace.
 
 ---
 
 ## About Panth Infotech
 
-Built and maintained by **Kishan Savaliya** — [kishansavaliya.com](https://kishansavaliya.com) — a **Top Rated Plus** Magento developer on Upwork with 10+ years of eCommerce experience.
+Built and maintained by **Kishan Savaliya** ([kishansavaliya.com](https://kishansavaliya.com)), a **Top Rated Plus** Magento developer on Upwork with 10+ years of eCommerce experience.
 
-**Panth Infotech** is a Magento 2 development agency specializing in high-quality, security-focused extensions and themes for both Hyva and Luma storefronts. Our extension suite covers SEO, performance, checkout, product presentation, customer engagement, and store management — over 34 modules built to MEQP standards and tested across Magento 2.4.4 to 2.4.8.
+**Panth Infotech** is a Magento 2 development agency that builds high quality, security focused extensions and themes for both Hyva and Luma storefronts. The extension suite covers SEO, performance, checkout, product presentation, customer engagement, and store management, with each module built to MEQP standards and tested across Magento 2.4.4 to 2.4.8.
 
-Browse the full extension catalog on the [Adobe Commerce Marketplace](https://commercemarketplace.adobe.com) or [Packagist](https://packagist.org/packages/mage2kishan/).
+Browse the full extension catalog on our [Magento extensions page](https://kishansavaliya.com/magento-extensions.html) or on [Packagist](https://packagist.org/packages/mage2kishan/).
 
 ---
 
 ## Quick Links
 
-- 🌐 **Website:** [kishansavaliya.com](https://kishansavaliya.com)
-- 💬 **Get a Quote:** [kishansavaliya.com/get-quote](https://kishansavaliya.com/get-quote)
-- 👨‍💻 **Upwork Profile (Top Rated Plus):** [upwork.com/freelancers/~016dd1767321100e21](https://www.upwork.com/freelancers/~016dd1767321100e21)
-- 🏢 **Upwork Agency:** [upwork.com/agencies/1881421506131960778](https://www.upwork.com/agencies/1881421506131960778/)
-- 📦 **Packagist:** [packagist.org/packages/mage2kishan/module-low-stock-notification](https://packagist.org/packages/mage2kishan/module-low-stock-notification)
-- 🐙 **GitHub:** [github.com/mage2sk/module-low-stock-notification](https://github.com/mage2sk/module-low-stock-notification)
-- 🛒 **Adobe Marketplace:** [commercemarketplace.adobe.com](https://commercemarketplace.adobe.com)
-- 📧 **Email:** kishansavaliyakb@gmail.com
-- 📱 **WhatsApp:** +91 84012 70422
+| Resource | Link |
+|---|---|
+| **Product Page** | [magento-2-low-stock-notification.html](https://kishansavaliya.com/magento-2-low-stock-notification.html) |
+| **Packagist** | [mage2kishan/module-low-stock-notification](https://packagist.org/packages/mage2kishan/module-low-stock-notification) |
+| **GitHub** | [mage2sk/module-low-stock-notification](https://github.com/mage2sk/module-low-stock-notification) |
+| **Website** | [kishansavaliya.com](https://kishansavaliya.com) |
+| **Free Quote** | [kishansavaliya.com/get-quote](https://kishansavaliya.com/get-quote) |
+| **Upwork (Top Rated Plus)** | [Hire Kishan Savaliya](https://www.upwork.com/freelancers/~016dd1767321100e21) |
+| **Upwork Agency** | [Panth Infotech](https://www.upwork.com/agencies/1881421506131960778/) |
+| **Email** | kishansavaliyakb@gmail.com |
+| **WhatsApp** | +91 84012 70422 |
 
 ---
 
 <p align="center">
-  <strong>Ready to recover lost sales from out-of-stock products?</strong><br/>
-  <a href="https://kishansavaliya.com/get-quote">
-    <img src="https://img.shields.io/badge/%F0%9F%9A%80%20Get%20Started%20%E2%86%92-Free%20Quote%20in%2024h-DC2626?style=for-the-badge" alt="Get Started" />
+  <strong>Ready to recover sales from out-of-stock products?</strong><br/>
+  <a href="https://kishansavaliya.com/magento-2-low-stock-notification.html">
+    <img src="https://img.shields.io/badge/%F0%9F%9A%80%20See%20Low%20Stock%20Notification%20%E2%86%92-Product%20Page%20%26%20Details-DC2626?style=for-the-badge" alt="See Low Stock Notification" />
   </a>
 </p>
 
 ---
 
-**SEO Keywords:** magento 2 back in stock, magento 2 low stock alert, magento 2 email notifications, magento 2 stock alert, out of stock notification, back in stock notification magento 2, notify me when available magento, product alert magento 2, stock availability email, restock email magento, hyva back in stock module, luma stock alert extension, magento 2 subscription alerts, magento 2 out of stock email, magento 2 waitlist, magento 2 inventory notification, magento 2.4.8 stock alert, php 8.4 magento extension, panth infotech, mage2kishan, mage2sk, hire magento developer, top rated plus upwork magento, kishan savaliya, custom magento development, magento 2 hyva development, magento 2 luma customization, magento 2 conversion optimization, magento 2 email marketing, magento 2 cron notifications, magento 2 customer engagement
+**SEO Keywords:** magento 2 back in stock, magento 2 low stock alert, magento 2 back in stock notification, magento 2 email notifications, magento 2 stock alert, out of stock notification magento 2, back in stock notification magento, notify me when available magento 2, product alert magento 2, stock availability email, restock email magento 2, hyva back in stock module, hyva stock alert extension, luma stock notification, luma back in stock, magento 2 subscription alerts, magento 2 out of stock email, magento 2 waitlist extension, magento 2 inventory notification, magento 2 stock alert cron, magento 2 customer stock alert, magento 2 notify me form, magento 2.4.8 back in stock, php 8.4 magento extension, panth infotech, mage2kishan, mage2sk, hire magento developer, top rated plus upwork magento, kishan savaliya, custom magento development, magento 2 hyva development, magento 2 luma customization

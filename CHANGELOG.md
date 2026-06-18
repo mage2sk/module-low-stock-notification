@@ -4,7 +4,14 @@ All notable changes to this extension are documented here. The format
 is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/).
 
-## [1.0.0] — Initial release
+## [1.0.7] - 2026-06-18
+
+### Changed
+- Rewrote README.md to match the gold template structure: added SEO meta block, Quick Answer section, redesigned Quick Links table, updated Configuration table to reflect only the real system.xml fields, corrected cron schedule (every 6 hours), corrected database table name (`panth_stock_alert`), added live product page links, removed inaccurate claims about batch size and retry configuration settings that do not exist in system.xml.
+
+---
+
+## [1.0.0] - Initial release
 
 ### Added
 - **Back-in-stock email alerts** — customers can subscribe to receive
