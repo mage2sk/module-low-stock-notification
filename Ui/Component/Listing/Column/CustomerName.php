@@ -1,8 +1,4 @@
 <?php
-/**
- * Copyright © Panth Infotech. All rights reserved.
- * Customer Name Column
- */
 declare(strict_types=1);
 
 namespace Panth\LowStockNotification\Ui\Component\Listing\Column;
@@ -14,18 +10,8 @@ use Magento\Customer\Api\CustomerRepositoryInterface;
 
 class CustomerName extends Column
 {
-    /**
-     * @var CustomerRepositoryInterface
-     */
     protected $customerRepository;
 
-    /**
-     * @param ContextInterface $context
-     * @param UiComponentFactory $uiComponentFactory
-     * @param CustomerRepositoryInterface $customerRepository
-     * @param array $components
-     * @param array $data
-     */
     public function __construct(
         ContextInterface $context,
         UiComponentFactory $uiComponentFactory,
@@ -37,21 +23,13 @@ class CustomerName extends Column
         $this->customerRepository = $customerRepository;
     }
 
-    /**
-     * Prepare Data Source
-     *
-     * @param array $dataSource
-     * @return array
-     */
     public function prepareDataSource(array $dataSource)
     {
         if (isset($dataSource['data']['items'])) {
             foreach ($dataSource['data']['items'] as &$item) {
-                // Check if customer_name exists in row data and is not empty
                 if (isset($item['customer_name']) && !empty($item['customer_name'])) {
                     $item['customer_name'] = $item['customer_name'];
                 } elseif (isset($item['customer_id']) && $item['customer_id']) {
-                    // Fetch from CustomerRepositoryInterface if customer_id exists
                     try {
                         $customer = $this->customerRepository->getById($item['customer_id']);
                         $item['customer_name'] = $customer->getFirstname() . ' ' . $customer->getLastname();
@@ -59,7 +37,6 @@ class CustomerName extends Column
                         $item['customer_name'] = __('N/A');
                     }
                 } else {
-                    // Return "Guest" for guest customers
                     $item['customer_name'] = __('Guest');
                 }
             }

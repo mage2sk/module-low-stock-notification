@@ -1,8 +1,4 @@
 <?php
-/**
- * Copyright © Panth Infotech. All rights reserved.
- * Stock Alert Notification Cron
- */
 declare(strict_types=1);
 
 namespace Panth\LowStockNotification\Cron;
@@ -21,62 +17,24 @@ use Psr\Log\LoggerInterface;
 
 class StockAlertNotification
 {
-    /**
-     * @var CollectionFactory
-     */
     private CollectionFactory $stockAlertCollectionFactory;
 
-    /**
-     * @var ProductRepositoryInterface
-     */
     private ProductRepositoryInterface $productRepository;
 
-    /**
-     * @var StockRegistryInterface
-     */
     private StockRegistryInterface $stockRegistry;
 
-    /**
-     * @var TransportBuilder
-     */
     private TransportBuilder $transportBuilder;
 
-    /**
-     * @var StoreManagerInterface
-     */
     private StoreManagerInterface $storeManager;
 
-    /**
-     * @var ScopeConfigInterface
-     */
     private ScopeConfigInterface $scopeConfig;
 
-    /**
-     * @var LoggerInterface
-     */
     private LoggerInterface $logger;
 
-    /**
-     * @var StockAlertResource
-     */
     private StockAlertResource $stockAlertResource;
 
-    /**
-     * @var DateTime
-     */
     private DateTime $dateTime;
 
-    /**
-     * @param CollectionFactory $stockAlertCollectionFactory
-     * @param ProductRepositoryInterface $productRepository
-     * @param StockRegistryInterface $stockRegistry
-     * @param TransportBuilder $transportBuilder
-     * @param StoreManagerInterface $storeManager
-     * @param ScopeConfigInterface $scopeConfig
-     * @param LoggerInterface $logger
-     * @param StockAlertResource $stockAlertResource
-     * @param DateTime $dateTime
-     */
     public function __construct(
         CollectionFactory $stockAlertCollectionFactory,
         ProductRepositoryInterface $productRepository,
@@ -99,11 +57,6 @@ class StockAlertNotification
         $this->dateTime = $dateTime;
     }
 
-    /**
-     * Execute cron job
-     *
-     * @return void
-     */
     public function execute(): void
     {
         $collection = $this->stockAlertCollectionFactory->create()
@@ -131,13 +84,6 @@ class StockAlertNotification
         }
     }
 
-    /**
-     * Send back in stock email
-     *
-     * @param StockAlert $alert
-     * @param \Magento\Catalog\Api\Data\ProductInterface $product
-     * @return void
-     */
     private function sendBackInStockEmail(StockAlert $alert, $product): void
     {
         try {

@@ -1,8 +1,4 @@
 <?php
-/**
- * Copyright © Panth Infotech. All rights reserved.
- * Product Name Column
- */
 declare(strict_types=1);
 
 namespace Panth\LowStockNotification\Ui\Component\Listing\Column;
@@ -14,18 +10,8 @@ use Magento\Catalog\Api\ProductRepositoryInterface;
 
 class ProductName extends Column
 {
-    /**
-     * @var ProductRepositoryInterface
-     */
     protected $productRepository;
 
-    /**
-     * @param ContextInterface $context
-     * @param UiComponentFactory $uiComponentFactory
-     * @param ProductRepositoryInterface $productRepository
-     * @param array $components
-     * @param array $data
-     */
     public function __construct(
         ContextInterface $context,
         UiComponentFactory $uiComponentFactory,
@@ -37,12 +23,6 @@ class ProductName extends Column
         parent::__construct($context, $uiComponentFactory, $components, $data);
     }
 
-    /**
-     * Prepare Data Source
-     *
-     * @param array $dataSource
-     * @return array
-     */
     public function prepareDataSource(array $dataSource)
     {
         if (isset($dataSource['data']['items'])) {

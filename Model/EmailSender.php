@@ -1,8 +1,4 @@
 <?php
-/**
- * Copyright © Panth Infotech. All rights reserved.
- * Email Sender Service
- */
 declare(strict_types=1);
 
 namespace Panth\LowStockNotification\Model;
@@ -18,50 +14,20 @@ use Psr\Log\LoggerInterface;
 
 class EmailSender
 {
-    /**
-     * @var ProductRepositoryInterface
-     */
     private ProductRepositoryInterface $productRepository;
 
-    /**
-     * @var TransportBuilder
-     */
     private TransportBuilder $transportBuilder;
 
-    /**
-     * @var StoreManagerInterface
-     */
     private StoreManagerInterface $storeManager;
 
-    /**
-     * @var ScopeConfigInterface
-     */
     private ScopeConfigInterface $scopeConfig;
 
-    /**
-     * @var LoggerInterface
-     */
     private LoggerInterface $logger;
 
-    /**
-     * @var StockAlertResource
-     */
     private StockAlertResource $stockAlertResource;
 
-    /**
-     * @var DateTime
-     */
     private DateTime $dateTime;
 
-    /**
-     * @param ProductRepositoryInterface $productRepository
-     * @param TransportBuilder $transportBuilder
-     * @param StoreManagerInterface $storeManager
-     * @param ScopeConfigInterface $scopeConfig
-     * @param LoggerInterface $logger
-     * @param StockAlertResource $stockAlertResource
-     * @param DateTime $dateTime
-     */
     public function __construct(
         ProductRepositoryInterface $productRepository,
         TransportBuilder $transportBuilder,
@@ -80,13 +46,6 @@ class EmailSender
         $this->dateTime = $dateTime;
     }
 
-    /**
-     * Send alert email
-     *
-     * @param StockAlert $alert
-     * @return bool
-     * @throws \Exception
-     */
     public function sendAlertEmail(StockAlert $alert): bool
     {
         try {
@@ -106,14 +65,6 @@ class EmailSender
         }
     }
 
-    /**
-     * Send back in stock email
-     *
-     * @param StockAlert $alert
-     * @param \Magento\Catalog\Api\Data\ProductInterface $product
-     * @return void
-     * @throws \Exception
-     */
     private function sendBackInStockEmail(StockAlert $alert, $product): void
     {
         try {

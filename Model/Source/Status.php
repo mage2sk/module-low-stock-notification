@@ -1,8 +1,4 @@
 <?php
-/**
- * Copyright © Panth Infotech. All rights reserved.
- * Status Source Model
- */
 declare(strict_types=1);
 
 namespace Panth\LowStockNotification\Model\Source;
@@ -12,11 +8,6 @@ use Panth\LowStockNotification\Model\StockAlert;
 
 class Status implements OptionSourceInterface
 {
-    /**
-     * Get options
-     *
-     * @return array
-     */
     public function toOptionArray()
     {
         return [

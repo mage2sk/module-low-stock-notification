@@ -1,8 +1,4 @@
 <?php
-/**
- * Copyright © Panth Infotech. All rights reserved.
- * Subscribe to Stock Alert Controller
- */
 declare(strict_types=1);
 
 namespace Panth\LowStockNotification\Controller\Alert;
@@ -21,56 +17,22 @@ use Panth\LowStockNotification\Model\StockAlertFactory;
 
 class Stock implements HttpPostActionInterface
 {
-    /**
-     * @var JsonFactory
-     */
     private JsonFactory $resultJsonFactory;
 
-    /**
-     * @var CustomerSession
-     */
     private CustomerSession $customerSession;
 
-    /**
-     * @var StoreManagerInterface
-     */
     private StoreManagerInterface $storeManager;
 
-    /**
-     * @var StockAlertFactory
-     */
     private StockAlertFactory $stockAlertFactory;
 
-    /**
-     * @var StockAlertHelper
-     */
     private StockAlertHelper $helper;
 
-    /**
-     * @var ProductRepositoryInterface
-     */
     private ProductRepositoryInterface $productRepository;
 
-    /**
-     * @var RequestInterface
-     */
     private RequestInterface $request;
 
-    /**
-     * @var StockAlertResource
-     */
     private StockAlertResource $stockAlertResource;
 
-    /**
-     * @param JsonFactory $resultJsonFactory
-     * @param CustomerSession $customerSession
-     * @param StoreManagerInterface $storeManager
-     * @param StockAlertFactory $stockAlertFactory
-     * @param StockAlertHelper $helper
-     * @param ProductRepositoryInterface $productRepository
-     * @param RequestInterface $request
-     * @param StockAlertResource $stockAlertResource
-     */
     public function __construct(
         JsonFactory $resultJsonFactory,
         CustomerSession $customerSession,
@@ -91,11 +53,6 @@ class Stock implements HttpPostActionInterface
         $this->stockAlertResource = $stockAlertResource;
     }
 
-    /**
-     * Execute action
-     *
-     * @return Json
-     */
     public function execute(): Json
     {
         $result = $this->resultJsonFactory->create();
@@ -192,7 +149,6 @@ class Stock implements HttpPostActionInterface
                 ]);
             }
 
-            // Check if alert already exists
             $existingAlert = $this->stockAlertFactory->create();
             $collection = $existingAlert->getCollection()
                 ->addFieldToFilter('product_id', $productId)
@@ -206,7 +162,6 @@ class Stock implements HttpPostActionInterface
                 ]);
             }
 
-            // Create new alert
             $stockAlert = $this->stockAlertFactory->create();
             $stockAlert->setCustomerId($customerId)
                 ->setProductId($productId)

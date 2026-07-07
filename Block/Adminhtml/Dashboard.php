@@ -1,8 +1,4 @@
 <?php
-/**
- * Copyright © Panth Infotech. All rights reserved.
- * Dashboard Block
- */
 declare(strict_types=1);
 
 namespace Panth\LowStockNotification\Block\Adminhtml;
@@ -32,9 +28,6 @@ class Dashboard extends Template
         parent::__construct($context, $data);
     }
 
-    /**
-     * Get product name by ID (cached)
-     */
     public function getProductName(int $productId): string
     {
         if (!isset($this->productNameCache[$productId])) {
@@ -48,21 +41,11 @@ class Dashboard extends Template
         return $this->productNameCache[$productId];
     }
 
-    /**
-     * Get total alerts count
-     *
-     * @return int
-     */
     public function getTotalAlertsCount()
     {
         return $this->collectionFactory->create()->getSize();
     }
 
-    /**
-     * Get pending alerts count
-     *
-     * @return int
-     */
     public function getPendingAlertsCount()
     {
         return $this->collectionFactory->create()
@@ -70,11 +53,6 @@ class Dashboard extends Template
             ->getSize();
     }
 
-    /**
-     * Get sent alerts count
-     *
-     * @return int
-     */
     public function getSentAlertsCount()
     {
         return $this->collectionFactory->create()
@@ -82,11 +60,6 @@ class Dashboard extends Template
             ->getSize();
     }
 
-    /**
-     * Get cancelled alerts count
-     *
-     * @return int
-     */
     public function getCancelledAlertsCount()
     {
         return $this->collectionFactory->create()
@@ -94,12 +67,6 @@ class Dashboard extends Template
             ->getSize();
     }
 
-    /**
-     * Get recent alerts
-     *
-     * @param int $limit
-     * @return \Panth\LowStockNotification\Model\ResourceModel\StockAlert\Collection
-     */
     public function getRecentAlerts($limit = 10)
     {
         return $this->collectionFactory->create()
@@ -107,12 +74,6 @@ class Dashboard extends Template
             ->setPageSize($limit);
     }
 
-    /**
-     * Get status label
-     *
-     * @param int $status
-     * @return string
-     */
     public function getStatusLabel($status)
     {
         switch ($status) {
@@ -127,12 +88,6 @@ class Dashboard extends Template
         }
     }
 
-    /**
-     * Get status class
-     *
-     * @param int $status
-     * @return string
-     */
     public function getStatusClass($status)
     {
         switch ($status) {
@@ -147,33 +102,16 @@ class Dashboard extends Template
         }
     }
 
-    /**
-     * Get view alert URL
-     *
-     * @param int $alertId
-     * @return string
-     */
     public function getViewAlertUrl($alertId)
     {
         return $this->getUrl('lowstocknotification/alert/view', ['alert_id' => $alertId]);
     }
 
-    /**
-     * Get manage alerts URL
-     *
-     * @return string
-     */
     public function getManageAlertsUrl()
     {
         return $this->getUrl('lowstocknotification/alert/index');
     }
 
-    /**
-     * Get most requested products (products with most stock alerts)
-     *
-     * @param int $limit
-     * @return array
-     */
     public function getMostRequestedProducts($limit = 10)
     {
         $collection = $this->collectionFactory->create();
@@ -195,11 +133,6 @@ class Dashboard extends Template
         return $connection->fetchAll($select);
     }
 
-    /**
-     * Get alert trend data for the last 7 days
-     *
-     * @return array
-     */
     public function getAlertTrendData()
     {
         $collection = $this->collectionFactory->create();
@@ -220,11 +153,6 @@ class Dashboard extends Template
         return $connection->fetchAll($select);
     }
 
-    /**
-     * Get critical stock alerts (products with 5+ alerts)
-     *
-     * @return array
-     */
     public function getCriticalStockAlerts()
     {
         $collection = $this->collectionFactory->create();
@@ -246,11 +174,6 @@ class Dashboard extends Template
         return $connection->fetchAll($select);
     }
 
-    /**
-     * Get alerts created today
-     *
-     * @return int
-     */
     public function getTodayAlertsCount()
     {
         return $this->collectionFactory->create()
@@ -258,11 +181,6 @@ class Dashboard extends Template
             ->getSize();
     }
 
-    /**
-     * Get alerts sent today
-     *
-     * @return int
-     */
     public function getTodaySentCount()
     {
         return $this->collectionFactory->create()

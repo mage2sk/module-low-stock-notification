@@ -1,8 +1,4 @@
 <?php
-/**
- * Copyright © Panth Infotech. All rights reserved.
- * Placement Source Model for Admin Configuration
- */
 declare(strict_types=1);
 
 namespace Panth\LowStockNotification\Model\Config\Source;
@@ -11,20 +7,12 @@ use Magento\Framework\Data\OptionSourceInterface;
 
 class Placement implements OptionSourceInterface
 {
-    /**
-     * Placement option constants
-     */
     public const AFTER_PRICE = 'after_price';
     public const ABOVE_ADD_TO_CART = 'above_add_to_cart';
     public const BELOW_ADD_TO_CART = 'below_add_to_cart';
     public const ABOVE_DESCRIPTION = 'above_description';
     public const BELOW_DESCRIPTION = 'below_description';
 
-    /**
-     * Get placement options for admin configuration
-     *
-     * @return array
-     */
     public function toOptionArray()
     {
         return [
@@ -51,11 +39,6 @@ class Placement implements OptionSourceInterface
         ];
     }
 
-    /**
-     * Get placement options as array
-     *
-     * @return array
-     */
     public function toArray()
     {
         return [
@@ -67,12 +50,6 @@ class Placement implements OptionSourceInterface
         ];
     }
 
-    /**
-     * Get container name based on placement value
-     *
-     * @param string $placement
-     * @return array [container, position]
-     */
     public function getContainerConfig($placement)
     {
         switch ($placement) {

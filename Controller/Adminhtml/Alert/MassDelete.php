@@ -1,8 +1,4 @@
 <?php
-/**
- * Copyright © Panth Infotech. All rights reserved.
- * Alert Mass Delete Controller
- */
 declare(strict_types=1);
 
 namespace Panth\LowStockNotification\Controller\Adminhtml\Alert;
@@ -15,32 +11,14 @@ use Panth\LowStockNotification\Model\ResourceModel\StockAlert\CollectionFactory;
 
 class MassDelete extends Action
 {
-    /**
-     * Authorization level
-     */
     public const ADMIN_RESOURCE = 'Panth_LowStockNotification::alert_delete';
 
-    /**
-     * @var Filter
-     */
     private Filter $filter;
 
-    /**
-     * @var CollectionFactory
-     */
     private CollectionFactory $collectionFactory;
 
-    /**
-     * @var StockAlertResource
-     */
     private StockAlertResource $stockAlertResource;
 
-    /**
-     * @param Context $context
-     * @param Filter $filter
-     * @param CollectionFactory $collectionFactory
-     * @param StockAlertResource $stockAlertResource
-     */
     public function __construct(
         Context $context,
         Filter $filter,
@@ -53,11 +31,6 @@ class MassDelete extends Action
         $this->stockAlertResource = $stockAlertResource;
     }
 
-    /**
-     * Execute mass delete action
-     *
-     * @return \Magento\Backend\Model\View\Result\Redirect
-     */
     public function execute()
     {
         $collection = $this->filter->getCollection($this->collectionFactory->create());

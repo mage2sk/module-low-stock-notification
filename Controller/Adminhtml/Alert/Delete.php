@@ -1,8 +1,4 @@
 <?php
-/**
- * Copyright © Panth Infotech. All rights reserved.
- * Alert Delete Controller
- */
 declare(strict_types=1);
 
 namespace Panth\LowStockNotification\Controller\Adminhtml\Alert;
@@ -14,26 +10,12 @@ use Panth\LowStockNotification\Model\ResourceModel\StockAlert as StockAlertResou
 
 class Delete extends Action
 {
-    /**
-     * Authorization level
-     */
     public const ADMIN_RESOURCE = 'Panth_LowStockNotification::alert_delete';
 
-    /**
-     * @var StockAlertFactory
-     */
     private StockAlertFactory $stockAlertFactory;
 
-    /**
-     * @var StockAlertResource
-     */
     private StockAlertResource $stockAlertResource;
 
-    /**
-     * @param Context $context
-     * @param StockAlertFactory $stockAlertFactory
-     * @param StockAlertResource $stockAlertResource
-     */
     public function __construct(
         Context $context,
         StockAlertFactory $stockAlertFactory,
@@ -44,11 +26,6 @@ class Delete extends Action
         $this->stockAlertResource = $stockAlertResource;
     }
 
-    /**
-     * Delete action
-     *
-     * @return \Magento\Backend\Model\View\Result\Redirect
-     */
     public function execute()
     {
         $resultRedirect = $this->resultRedirectFactory->create();

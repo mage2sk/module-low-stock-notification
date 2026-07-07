@@ -1,8 +1,4 @@
 <?php
-/**
- * Copyright © Panth Infotech. All rights reserved.
- * Alert Send Email Controller
- */
 declare(strict_types=1);
 
 namespace Panth\LowStockNotification\Controller\Adminhtml\Alert;
@@ -15,32 +11,14 @@ use Panth\LowStockNotification\Model\EmailSender;
 
 class Send extends Action
 {
-    /**
-     * Authorization level
-     */
     public const ADMIN_RESOURCE = 'Panth_LowStockNotification::alert_send';
 
-    /**
-     * @var StockAlertFactory
-     */
     private StockAlertFactory $stockAlertFactory;
 
-    /**
-     * @var StockAlertResource
-     */
     private StockAlertResource $stockAlertResource;
 
-    /**
-     * @var EmailSender
-     */
     private EmailSender $emailSender;
 
-    /**
-     * @param Context $context
-     * @param StockAlertFactory $stockAlertFactory
-     * @param StockAlertResource $stockAlertResource
-     * @param EmailSender $emailSender
-     */
     public function __construct(
         Context $context,
         StockAlertFactory $stockAlertFactory,
@@ -53,11 +31,6 @@ class Send extends Action
         $this->emailSender = $emailSender;
     }
 
-    /**
-     * Send email action
-     *
-     * @return \Magento\Backend\Model\View\Result\Redirect
-     */
     public function execute()
     {
         $resultRedirect = $this->resultRedirectFactory->create();

@@ -1,8 +1,4 @@
 <?php
-/**
- * Copyright © Panth Infotech. All rights reserved.
- * Alert Mass Send Email Controller
- */
 declare(strict_types=1);
 
 namespace Panth\LowStockNotification\Controller\Adminhtml\Alert;
@@ -23,68 +19,26 @@ use Psr\Log\LoggerInterface;
 
 class MassSend extends Action
 {
-    /**
-     * Authorization level
-     */
     public const ADMIN_RESOURCE = 'Panth_LowStockNotification::alert_send';
 
-    /**
-     * @var Filter
-     */
     private Filter $filter;
 
-    /**
-     * @var CollectionFactory
-     */
     private CollectionFactory $collectionFactory;
 
-    /**
-     * @var ProductRepositoryInterface
-     */
     private ProductRepositoryInterface $productRepository;
 
-    /**
-     * @var TransportBuilder
-     */
     private TransportBuilder $transportBuilder;
 
-    /**
-     * @var StoreManagerInterface
-     */
     private StoreManagerInterface $storeManager;
 
-    /**
-     * @var ScopeConfigInterface
-     */
     private ScopeConfigInterface $scopeConfig;
 
-    /**
-     * @var LoggerInterface
-     */
     private LoggerInterface $logger;
 
-    /**
-     * @var StockAlertResource
-     */
     private StockAlertResource $stockAlertResource;
 
-    /**
-     * @var DateTime
-     */
     private DateTime $dateTime;
 
-    /**
-     * @param Context $context
-     * @param Filter $filter
-     * @param CollectionFactory $collectionFactory
-     * @param ProductRepositoryInterface $productRepository
-     * @param TransportBuilder $transportBuilder
-     * @param StoreManagerInterface $storeManager
-     * @param ScopeConfigInterface $scopeConfig
-     * @param LoggerInterface $logger
-     * @param StockAlertResource $stockAlertResource
-     * @param DateTime $dateTime
-     */
     public function __construct(
         Context $context,
         Filter $filter,
@@ -109,11 +63,6 @@ class MassSend extends Action
         $this->dateTime = $dateTime;
     }
 
-    /**
-     * Execute mass send action
-     *
-     * @return \Magento\Backend\Model\View\Result\Redirect
-     */
     public function execute()
     {
         $collection = $this->filter->getCollection($this->collectionFactory->create());
@@ -148,14 +97,6 @@ class MassSend extends Action
         return $resultRedirect->setPath('*/*/');
     }
 
-    /**
-     * Send back in stock email
-     *
-     * @param StockAlert $alert
-     * @param \Magento\Catalog\Api\Data\ProductInterface $product
-     * @return void
-     * @throws \Exception
-     */
     private function sendBackInStockEmail(StockAlert $alert, $product): void
     {
         $store = $this->storeManager->getStore($alert->getStoreId());

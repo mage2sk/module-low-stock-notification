@@ -1,8 +1,4 @@
 <?php
-/**
- * Copyright © Panth Infotech. All rights reserved.
- * Alert Grid Controller
- */
 declare(strict_types=1);
 
 namespace Panth\LowStockNotification\Controller\Adminhtml\Alert;
@@ -13,20 +9,10 @@ use Magento\Framework\View\Result\PageFactory;
 
 class Index extends Action
 {
-    /**
-     * Authorization level
-     */
     public const ADMIN_RESOURCE = 'Panth_LowStockNotification::alerts';
 
-    /**
-     * @var PageFactory
-     */
     protected $resultPageFactory;
 
-    /**
-     * @param Context $context
-     * @param PageFactory $resultPageFactory
-     */
     public function __construct(
         Context $context,
         PageFactory $resultPageFactory
@@ -35,11 +21,6 @@ class Index extends Action
         $this->resultPageFactory = $resultPageFactory;
     }
 
-    /**
-     * Index action
-     *
-     * @return \Magento\Backend\Model\View\Result\Page
-     */
     public function execute()
     {
         $resultPage = $this->resultPageFactory->create();

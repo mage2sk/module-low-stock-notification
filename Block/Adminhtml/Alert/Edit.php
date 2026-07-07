@@ -1,8 +1,4 @@
 <?php
-/**
- * Copyright © Panth Infotech. All rights reserved.
- * Alert Edit Block
- */
 declare(strict_types=1);
 
 namespace Panth\LowStockNotification\Block\Adminhtml\Alert;
@@ -18,50 +14,20 @@ use Panth\LowStockNotification\Model\ResourceModel\StockAlert as StockAlertResou
 
 class Edit extends Template
 {
-    /**
-     * @var ProductRepositoryInterface
-     */
     private ProductRepositoryInterface $productRepository;
 
-    /**
-     * @var CustomerRepositoryInterface
-     */
     private CustomerRepositoryInterface $customerRepository;
 
-    /**
-     * @var PriceCurrencyInterface
-     */
     private PriceCurrencyInterface $priceCurrency;
 
-    /**
-     * @var StockAlertFactory
-     */
     private StockAlertFactory $stockAlertFactory;
 
-    /**
-     * @var StockAlertResource
-     */
     private StockAlertResource $stockAlertResource;
 
-    /**
-     * @var StockAlert|null
-     */
     private ?StockAlert $alert = null;
 
-    /**
-     * @var string
-     */
     protected $_template = 'Panth_LowStockNotification::alert/view.phtml';
 
-    /**
-     * @param Context $context
-     * @param ProductRepositoryInterface $productRepository
-     * @param CustomerRepositoryInterface $customerRepository
-     * @param PriceCurrencyInterface $priceCurrency
-     * @param StockAlertFactory $stockAlertFactory
-     * @param StockAlertResource $stockAlertResource
-     * @param array $data
-     */
     public function __construct(
         Context $context,
         ProductRepositoryInterface $productRepository,
@@ -79,11 +45,6 @@ class Edit extends Template
         parent::__construct($context, $data);
     }
 
-    /**
-     * Get current alert
-     *
-     * @return StockAlert
-     */
     public function getAlert(): StockAlert
     {
         if ($this->alert === null) {
@@ -96,11 +57,6 @@ class Edit extends Template
         return $this->alert;
     }
 
-    /**
-     * Get product
-     *
-     * @return \Magento\Catalog\Api\Data\ProductInterface|null
-     */
     public function getProduct()
     {
         try {
@@ -110,11 +66,6 @@ class Edit extends Template
         }
     }
 
-    /**
-     * Get customer
-     *
-     * @return \Magento\Customer\Api\Data\CustomerInterface|null
-     */
     public function getCustomer()
     {
         try {
@@ -127,12 +78,6 @@ class Edit extends Template
         return null;
     }
 
-    /**
-     * Get status label
-     *
-     * @param int $status
-     * @return \Magento\Framework\Phrase
-     */
     public function getStatusLabel($status)
     {
         switch ((int) $status) {
@@ -147,63 +92,31 @@ class Edit extends Template
         }
     }
 
-    /**
-     * Get delete URL
-     *
-     * @return string
-     */
     public function getDeleteUrl(): string
     {
         return $this->getUrl('*/*/delete', ['alert_id' => $this->getAlert()->getId()]);
     }
 
-    /**
-     * Get send URL
-     *
-     * @return string
-     */
     public function getSendUrl(): string
     {
         return $this->getUrl('*/*/send', ['alert_id' => $this->getAlert()->getId()]);
     }
 
-    /**
-     * Get back URL
-     *
-     * @return string
-     */
     public function getBackUrl(): string
     {
         return $this->getUrl('*/*/index');
     }
 
-    /**
-     * Can send email
-     *
-     * @return bool
-     */
     public function canSendEmail(): bool
     {
         return (int) $this->getAlert()->getStatus() === StockAlert::STATUS_ACTIVE;
     }
 
-    /**
-     * Format price
-     *
-     * @param float $price
-     * @return string
-     */
     public function formatPrice($price): string
     {
         return $this->priceCurrency->format($price, false);
     }
 
-    /**
-     * Get status class
-     *
-     * @param int $status
-     * @return string
-     */
     public function getStatusClass($status): string
     {
         switch ((int) $status) {
