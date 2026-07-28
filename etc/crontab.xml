@@ -12,6 +12,6 @@
         <job name="lowstocknotification_stock_alert" instance="Panth\LowStockNotification\Cron\StockAlertNotification" method="execute">
             <schedule>0 */6 * * *</schedule>
         </job>
-        <!-- Daily heartbeat — conditional inside Cron\SendHeartbeat. -->
+        <!-- Daily heartbeat - conditional inside Cron\SendHeartbeat. -->
     </group>
 </config>
