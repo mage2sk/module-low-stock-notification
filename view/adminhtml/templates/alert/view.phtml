@@ -1,0 +1,137 @@
+<?php
+/**
+ * Copyright © Panth Infotech. All rights reserved.
+ * Alert View Template - Magento admin styling
+ *
+ * @var $block \Panth\LowStockNotification\Block\Adminhtml\Alert\Edit
+ */
+
+$alert = $block->getAlert();
+$product = $block->getProduct();
+$customer = $block->getCustomer();
+?>
+
+<div class="admin__page-section lsn-view">
+    <?php if ($block->canSendEmail()): ?>
+    <form id="lsn-alert-send-form" class="lsn-hidden-form" method="post" action="<?= $block->escapeUrl($block->getSendUrl()) ?>"
+          onsubmit="return confirm('<?= $block->escapeJs(__('Are you sure you want to send this alert email?')) ?>');">
+        <input type="hidden" name="form_key" value="<?= $block->escapeHtmlAttr($block->getFormKey()) ?>"/>
+    </form>
+    <?php endif; ?>
+    <form id="lsn-alert-delete-form" class="lsn-hidden-form" method="post" action="<?= $block->escapeUrl($block->getDeleteUrl()) ?>"
+          onsubmit="return confirm('<?= $block->escapeJs(__('Are you sure you want to delete this alert?')) ?>');">
+        <input type="hidden" name="form_key" value="<?= $block->escapeHtmlAttr($block->getFormKey()) ?>"/>
+    </form>
+    <div class="admin__page-section-content">
+        <div class="lsn-view-grid">
+
+            <!-- Alert Details -->
+            <fieldset class="admin__fieldset">
+                <legend class="admin__legend"><span><?= $block->escapeHtml(__('Alert Information')) ?></span></legend>
+                <table class="admin__table-secondary">
+                    <tr>
+                        <th><?= $block->escapeHtml(__('Alert ID')) ?></th>
+                        <td>#<?= $block->escapeHtml($alert->getId()) ?></td>
+                    </tr>
+                    <tr>
+                        <th><?= $block->escapeHtml(__('Status')) ?></th>
+                        <td>
+                            <?php
+                            $statusClass = $block->getStatusClass($alert->getStatus());
+                            $statusLabel = $block->getStatusLabel($alert->getStatus());
+                            ?>
+                            <span class="<?= $block->escapeHtmlAttr($statusClass) ?>"><?= $block->escapeHtml($statusLabel) ?></span>
+                        </td>
+                    </tr>
+                    <tr>
+                        <th><?= $block->escapeHtml(__('Customer Email')) ?></th>
+                        <td><a href="mailto:<?= $block->escapeHtmlAttr($alert->getEmail()) ?>"><?= $block->escapeHtml($alert->getEmail()) ?></a></td>
+                    </tr>
+                    <tr>
+                        <th><?= $block->escapeHtml(__('Customer')) ?></th>
+                        <td>
+                            <?php if ($alert->getCustomerId()): ?>
+                                <?= $block->escapeHtml(__('Registered (ID: %1)', $alert->getCustomerId())) ?>
+                                <?php if ($customer): ?>
+                                    &middot; <?= $block->escapeHtml($customer->getFirstname() . ' ' . $customer->getLastname()) ?>
+                                <?php endif; ?>
+                            <?php else: ?>
+                                <?= $block->escapeHtml(__('Guest')) ?>
+                            <?php endif; ?>
+                        </td>
+                    </tr>
+                    <tr>
+                        <th><?= $block->escapeHtml(__('Store ID')) ?></th>
+                        <td><?= $block->escapeHtml($alert->getStoreId()) ?></td>
+                    </tr>
+                    <tr>
+                        <th><?= $block->escapeHtml(__('Created At')) ?></th>
+                        <td><?= $block->escapeHtml($block->formatDate($alert->getCreatedAt(), \IntlDateFormatter::MEDIUM, true)) ?></td>
+                    </tr>
+                    <tr>
+                        <th><?= $block->escapeHtml(__('Sent At')) ?></th>
+                        <td><?= $alert->getSentAt() ? $block->escapeHtml($block->formatDate($alert->getSentAt(), \IntlDateFormatter::MEDIUM, true)) : '<em>' . $block->escapeHtml(__('Not sent yet')) . '</em>' ?></td>
+                    </tr>
+                </table>
+            </fieldset>
+
+            <!-- Product & Stock Details -->
+            <fieldset class="admin__fieldset">
+                <legend class="admin__legend"><span><?= $block->escapeHtml(__('Product & Stock Details')) ?></span></legend>
+                <?php if ($product): ?>
+                <table class="admin__table-secondary">
+                    <tr>
+                        <th><?= $block->escapeHtml(__('Product')) ?></th>
+                        <td>
+                            <a href="<?= $block->escapeUrl($block->getUrl('catalog/product/edit', ['id' => $product->getId()])) ?>">
+                                <?= $block->escapeHtml($product->getName()) ?>
+                            </a>
+                            <br/><small class="lsn-meta">ID: <?= $block->escapeHtml($product->getId()) ?> | SKU: <?= $block->escapeHtml($product->getSku()) ?> | <?= $block->escapeHtml(ucfirst($product->getTypeId())) ?></small>
+                        </td>
+                    </tr>
+                    <tr>
+                        <th><?= $block->escapeHtml(__('Price')) ?></th>
+                        <td><strong><?= $block->escapeHtml($block->formatPrice($product->getPrice())) ?></strong></td>
+                    </tr>
+                    <tr>
+                        <th><?= $block->escapeHtml(__('Stock Status')) ?></th>
+                        <td>
+                            <?php
+                            $stockItem = $product->getExtensionAttributes()->getStockItem();
+                            $isInStock = $stockItem ? $stockItem->getIsInStock() : false;
+                            ?>
+                            <?php if ($isInStock): ?>
+                                <span class="lsn-status is-instock"><?= $block->escapeHtml(__('In Stock')) ?></span>
+                            <?php else: ?>
+                                <span class="lsn-status is-outofstock"><?= $block->escapeHtml(__('Out of Stock')) ?></span>
+                            <?php endif; ?>
+                        </td>
+                    </tr>
+                    <?php if ($stockItem): ?>
+                    <tr>
+                        <th><?= $block->escapeHtml(__('Quantity')) ?></th>
+                        <td><strong class="lsn-strong-lg"><?= $block->escapeHtml(number_format($stockItem->getQty(), 0)) ?></strong></td>
+                    </tr>
+                    <?php endif; ?>
+                </table>
+
+                <!-- Stock Status Message -->
+                <?php if ($isInStock): ?>
+                <div class="message message-success">
+                    <?= $block->escapeHtml(__('Product is back in stock! The product is now available. You can send an email to notify the customer.')) ?>
+                </div>
+                <?php else: ?>
+                <div class="message message-warning">
+                    <?= $block->escapeHtml(__('Product is currently out of stock. The customer will be notified once the product becomes available again.')) ?>
+                </div>
+                <?php endif; ?>
+
+                <?php else: ?>
+                <div class="message message-warning">
+                    <?= $block->escapeHtml(__('Product not found or has been deleted.')) ?>
+                </div>
+                <?php endif; ?>
+            </fieldset>
+        </div>
+    </div>
+</div>

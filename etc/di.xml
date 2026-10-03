@@ -1,0 +1,44 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * Copyright © Panth Infotech. All rights reserved.
+ */
+-->
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:ObjectManager/etc/config.xsd">
+    <!-- UI Component Data Provider -->
+    <type name="Magento\Framework\View\Element\UiComponent\DataProvider\CollectionFactory">
+        <arguments>
+            <argument name="collections" xsi:type="array">
+                <item name="lowstocknotification_alert_listing_data_source" xsi:type="string">Panth\LowStockNotification\Model\ResourceModel\StockAlert\Grid\Collection</item>
+            </argument>
+        </arguments>
+    </type>
+
+    <type name="Panth\LowStockNotification\Model\ResourceModel\StockAlert\Grid\Collection">
+        <arguments>
+            <argument name="mainTable" xsi:type="string">panth_stock_alert</argument>
+            <argument name="resourceModel" xsi:type="string">Panth\LowStockNotification\Model\ResourceModel\StockAlert</argument>
+        </arguments>
+    </type>
+
+    <virtualType name="Panth\LowStockNotification\Ui\DataProvider\AlertGridFilterPool" type="Magento\Framework\View\Element\UiComponent\DataProvider\FilterPool">
+        <arguments>
+            <argument name="appliers" xsi:type="array">
+                <item name="regular" xsi:type="object">Magento\Framework\View\Element\UiComponent\DataProvider\RegularFilter</item>
+                <item name="fulltext" xsi:type="object">Panth\LowStockNotification\Ui\DataProvider\KeywordFilter</item>
+            </argument>
+        </arguments>
+    </virtualType>
+
+    <virtualType name="Panth\LowStockNotification\Ui\DataProvider\AlertGridDataProvider" type="Magento\Framework\View\Element\UiComponent\DataProvider\DataProvider">
+        <arguments>
+            <argument name="reporting" xsi:type="object" shared="false">Panth\LowStockNotification\Ui\DataProvider\AlertGridReporting</argument>
+        </arguments>
+    </virtualType>
+
+    <virtualType name="Panth\LowStockNotification\Ui\DataProvider\AlertGridReporting" type="Magento\Framework\View\Element\UiComponent\DataProvider\Reporting">
+        <arguments>
+            <argument name="filterPool" xsi:type="object">Panth\LowStockNotification\Ui\DataProvider\AlertGridFilterPool</argument>
+        </arguments>
+    </virtualType>
+</config>

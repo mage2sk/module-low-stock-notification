@@ -1,0 +1,33 @@
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Backend:etc/menu.xsd">
+    <menu>
+        <add id="Panth_LowStockNotification::group"
+             title="Low Stock Alerts"
+             module="Panth_LowStockNotification"
+             sortOrder="75"
+             parent="Panth_Core::panth_extensions"
+             resource="Panth_LowStockNotification::dashboard"/>
+        <add id="Panth_LowStockNotification::overview"
+             title="Dashboard"
+             module="Panth_LowStockNotification"
+             sortOrder="10"
+             parent="Panth_LowStockNotification::group"
+             action="lowstocknotification/dashboard/index"
+             resource="Panth_LowStockNotification::dashboard"/>
+        <add id="Panth_LowStockNotification::alerts"
+             title="Manage Alerts"
+             module="Panth_LowStockNotification"
+             sortOrder="20"
+             parent="Panth_LowStockNotification::group"
+             action="lowstocknotification/alert/index"
+             resource="Panth_LowStockNotification::alerts"/>
+        <add id="Panth_LowStockNotification::settings"
+             title="Configuration"
+             module="Panth_LowStockNotification"
+             sortOrder="99"
+             parent="Panth_LowStockNotification::group"
+             action="adminhtml/system_config/edit/section/lowstocknotification"
+             resource="Panth_LowStockNotification::config"/>
+    </menu>
+</config>

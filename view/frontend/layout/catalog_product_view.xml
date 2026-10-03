@@ -1,0 +1,13 @@
+<?xml version="1.0"?>
+<page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd">
+    <body>
+        <!-- Place inside product.info.main container (right column, after social links) -->
+        <referenceContainer name="product.info.main">
+            <block class="Panth\LowStockNotification\Block\StockAlert"
+                   name="product.stock.alert"
+                   template="Panth_LowStockNotification::luma/stock-alert-form.phtml"
+                   after="-"
+                   ifconfig="lowstocknotification/general/enabled"/>
+        </referenceContainer>
+    </body>
+</page>
