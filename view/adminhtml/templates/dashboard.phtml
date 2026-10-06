@@ -1,0 +1,185 @@
+<?php
+/**
+ * Copyright © Panth Infotech. All rights reserved.
+ *
+ * @var $block \Panth\LowStockNotification\Block\Adminhtml\Dashboard
+ * @var $escaper \Magento\Framework\Escaper
+ */
+
+$trendData = $block->getAlertTrendData();
+$mostRequested = $block->getMostRequestedProducts(10);
+$criticalAlerts = $block->getCriticalStockAlerts();
+$recentAlerts = $block->getRecentAlerts(15);
+$criticalCount = count($criticalAlerts);
+$kpis = [
+    [__('Total Alerts'), (string)$block->getTotalAlertsCount(), ''],
+    [__('Pending'), (string)$block->getPendingAlertsCount(), 'is-blue'],
+    [__('Sent'), (string)$block->getSentAlertsCount(), 'is-green'],
+    [__('Cancelled'), (string)$block->getCancelledAlertsCount(), 'is-red'],
+    [__('Today'), (string)$block->getTodayAlertsCount(), 'is-orange'],
+    [__('Critical Items'), (string)$criticalCount, 'is-red'],
+];
+?>
+<div class="lsn-dash">
+    <ul class="lsn-kpis">
+        <?php foreach ($kpis as $kpi): ?>
+        <li class="lsn-kpi">
+            <span class="lsn-kpi-label"><?= $escaper->escapeHtml($kpi[0]) ?></span>
+            <strong class="lsn-kpi-value <?= $escaper->escapeHtmlAttr($kpi[2]) ?>"><?= $escaper->escapeHtml($kpi[1]) ?></strong>
+        </li>
+        <?php endforeach; ?>
+    </ul>
+
+    <?php if ($criticalCount > 0): ?>
+    <div class="message message-error">
+        <?= $escaper->escapeHtml(__('%1 product(s) have 5 or more pending stock alerts. Review immediately!', $criticalCount)) ?>
+    </div>
+    <?php endif; ?>
+
+    <div class="lsn-row">
+        <div class="lsn-col-main">
+            <div class="lsn-panel">
+                <div class="lsn-panel-title"><?= $escaper->escapeHtml(__('Alert Trends (7 Days)')) ?></div>
+                <div class="lsn-panel-body is-padded">
+                    <div class="lsn-chart"><canvas id="stockAlertTrendChart"></canvas></div>
+                </div>
+            </div>
+        </div>
+        <div class="lsn-col-side">
+            <div class="lsn-panel">
+                <div class="lsn-panel-title">
+                    <span><?= $escaper->escapeHtml(__('Critical Stock')) ?></span>
+                    <span class="lsn-count"><?= $escaper->escapeHtml((string)$criticalCount) ?></span>
+                </div>
+                <div class="lsn-panel-body">
+                    <?php if ($criticalCount > 0): ?>
+                    <table class="data-grid">
+                        <thead>
+                            <tr>
+                                <th class="data-grid-th"><?= $escaper->escapeHtml(__('Product')) ?></th>
+                                <th class="data-grid-th a-right"><?= $escaper->escapeHtml(__('Alerts')) ?></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <?php foreach ($criticalAlerts as $product): ?>
+                            <tr class="data-row">
+                                <td>
+                                    <a href="<?= $escaper->escapeUrl($block->getUrl('catalog/product/edit', ['id' => $product['product_id']])) ?>"><?= $escaper->escapeHtml($block->getProductName((int)$product['product_id'])) ?></a>
+                                    <span class="lsn-meta">(#<?= $escaper->escapeHtml($product['product_id']) ?>)</span>
+                                </td>
+                                <td class="a-right"><span class="lsn-status is-outofstock"><?= $escaper->escapeHtml($product['alert_count']) ?></span></td>
+                            </tr>
+                            <?php endforeach; ?>
+                        </tbody>
+                    </table>
+                    <?php else: ?>
+                    <p class="lsn-empty"><?= $escaper->escapeHtml(__('No critical stock alerts')) ?></p>
+                    <?php endif; ?>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="lsn-panel">
+        <div class="lsn-panel-title">
+            <span><?= $escaper->escapeHtml(__('Most Requested Products')) ?></span>
+            <span class="lsn-count"><?= $escaper->escapeHtml((string)count($mostRequested)) ?></span>
+        </div>
+        <div class="lsn-panel-body">
+            <?php if (count($mostRequested) > 0): ?>
+            <table class="data-grid">
+                <thead>
+                    <tr>
+                        <th class="data-grid-th">#</th>
+                        <th class="data-grid-th"><?= $escaper->escapeHtml(__('Product')) ?></th>
+                        <th class="data-grid-th a-right"><?= $escaper->escapeHtml(__('Alerts')) ?></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <?php foreach ($mostRequested as $i => $product): ?>
+                    <tr class="data-row">
+                        <td><strong><?= $escaper->escapeHtml((string)($i + 1)) ?></strong></td>
+                        <td>
+                            <a href="<?= $escaper->escapeUrl($block->getUrl('catalog/product/edit', ['id' => $product['product_id']])) ?>"><?= $escaper->escapeHtml($block->getProductName((int)$product['product_id'])) ?></a>
+                            <span class="lsn-meta">(#<?= $escaper->escapeHtml($product['product_id']) ?>)</span>
+                        </td>
+                        <td class="a-right"><strong><?= $escaper->escapeHtml($product['alert_count']) ?></strong></td>
+                    </tr>
+                    <?php endforeach; ?>
+                </tbody>
+            </table>
+            <?php else: ?>
+            <p class="lsn-empty"><?= $escaper->escapeHtml(__('No product alerts yet')) ?></p>
+            <?php endif; ?>
+        </div>
+    </div>
+
+    <div class="lsn-panel">
+        <div class="lsn-panel-title">
+            <span><?= $escaper->escapeHtml(__('Recent Alert Activity')) ?></span>
+            <a href="<?= $escaper->escapeUrl($block->getManageAlertsUrl()) ?>" class="action-default scalable">
+                <span><?= $escaper->escapeHtml(__('View All Alerts')) ?></span>
+            </a>
+        </div>
+        <div class="lsn-panel-body">
+            <?php if ($recentAlerts->getSize() > 0): ?>
+            <table class="data-grid">
+                <thead>
+                    <tr>
+                        <th class="data-grid-th"><?= $escaper->escapeHtml(__('ID')) ?></th>
+                        <th class="data-grid-th"><?= $escaper->escapeHtml(__('Email')) ?></th>
+                        <th class="data-grid-th"><?= $escaper->escapeHtml(__('Product')) ?></th>
+                        <th class="data-grid-th"><?= $escaper->escapeHtml(__('Status')) ?></th>
+                        <th class="data-grid-th"><?= $escaper->escapeHtml(__('Created')) ?></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <?php foreach ($recentAlerts as $alert): ?>
+                    <tr class="data-row">
+                        <td><a href="<?= $escaper->escapeUrl($block->getViewAlertUrl($alert->getId())) ?>">#<?= $escaper->escapeHtml($alert->getId()) ?></a></td>
+                        <td><?= $escaper->escapeHtml($alert->getEmail()) ?></td>
+                        <td><a href="<?= $escaper->escapeUrl($block->getUrl('catalog/product/edit', ['id' => $alert->getProductId()])) ?>"><?= $escaper->escapeHtml($block->getProductName((int)$alert->getProductId())) ?></a></td>
+                        <td><span class="<?= $escaper->escapeHtmlAttr($block->getStatusClass($alert->getStatus())) ?>"><?= $escaper->escapeHtml($block->getStatusLabel($alert->getStatus())) ?></span></td>
+                        <td class="lsn-meta"><?= $escaper->escapeHtml($block->formatDate($alert->getCreatedAt(), \IntlDateFormatter::SHORT)) ?></td>
+                    </tr>
+                    <?php endforeach; ?>
+                </tbody>
+            </table>
+            <?php else: ?>
+            <p class="lsn-empty"><?= $escaper->escapeHtml(__('No recent alerts')) ?></p>
+            <?php endif; ?>
+        </div>
+    </div>
+</div>
+
+<script>
+require(['jquery', 'Panth_LowStockNotification/js/lib/chart.umd.min', 'domReady!'], function ($, Chart) {
+    var ctx = document.getElementById('stockAlertTrendChart');
+    if (!ctx) {
+        return;
+    }
+    var data = <?= /* @noEscape */ json_encode($trendData, JSON_HEX_TAG | JSON_HEX_AMP | JSON_HEX_APOS | JSON_HEX_QUOT) ?>;
+    new Chart(ctx, {
+        type: 'bar',
+        data: {
+            labels: data.map(function (d) { return d.date; }),
+            datasets: [{
+                label: '<?= $escaper->escapeJs(__('New Stock Alerts')) ?>',
+                data: data.map(function (d) { return parseInt(d.count, 10); }),
+                backgroundColor: '#eb5202',
+                borderRadius: 3,
+                maxBarThickness: 48
+            }]
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: { legend: { display: false } },
+            scales: {
+                y: { beginAtZero: true, ticks: { precision: 0, color: '#41362f', font: { size: 12 } }, grid: { color: '#f0f0f0' } },
+                x: { ticks: { color: '#41362f', font: { size: 12 } }, grid: { display: false } }
+            }
+        }
+    });
+});
+</script>

@@ -1,0 +1,17 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * Copyright © Panth Infotech. All rights reserved.
+ */
+-->
+<page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd">
+    <update handle="styles"/>
+    <head>
+        <css src="Panth_LowStockNotification::css/admin.css"/>
+    </head>
+    <body>
+        <referenceContainer name="content">
+            <block class="Panth\LowStockNotification\Block\Adminhtml\Dashboard" name="lowstocknotification_dashboard" template="Panth_LowStockNotification::dashboard.phtml"/>
+        </referenceContainer>
+    </body>
+</page>

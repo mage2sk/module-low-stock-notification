@@ -1,0 +1,80 @@
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Config:etc/system_file.xsd">
+    <system>
+        <tab id="panth" translate="label" sortOrder="300">
+            <label>🚀 Panth Extensions</label>
+        </tab>
+        <section id="lowstocknotification" translate="label" type="text" sortOrder="300" showInDefault="1" showInWebsite="1" showInStore="1">
+            <label>Low Stock Notification</label>
+            <tab>panth</tab>
+            <resource>Panth_LowStockNotification::config</resource>
+
+            <group id="general" translate="label comment" type="text" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1">
+                <label>General Settings</label>
+                <comment>When enabled, out-of-stock products show a "Notify Me" form so customers can subscribe to stock alerts.</comment>
+                <field id="enabled" translate="label comment" type="select" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Enable Stock Alerts</label>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                    <config_path>lowstocknotification/general/enabled</config_path>
+                    <comment>Show stock alert subscription form on out-of-stock product pages.</comment>
+                </field>
+                <field id="allow_guests" translate="label comment" type="select" sortOrder="20" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Allow Guest Subscriptions</label>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                    <config_path>lowstocknotification/general/allow_guests</config_path>
+                    <comment>Allow visitors who are not logged in to subscribe by entering their email address.</comment>
+                </field>
+                <field id="display_style" translate="label comment" type="select" sortOrder="30" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Product Page Display Style</label>
+                    <source_model>Panth\LowStockNotification\Model\Config\Source\DisplayStyle</source_model>
+                    <config_path>lowstocknotification/general/display_style</config_path>
+                    <comment>Compact shows one "Notify me when back in stock" link that opens the form in a dialog, so the product info column stays short. Full form shows the whole subscription card on the page (the style used before version 1.1.8).</comment>
+                </field>
+            </group>
+
+            <group id="email" translate="label comment" type="text" sortOrder="20" showInDefault="1" showInWebsite="1" showInStore="1">
+                <label>Email Notifications</label>
+                <comment><![CDATA[Configure how back-in-stock notification emails are sent. The template can be customized under <strong>Marketing > Email Templates</strong>.]]></comment>
+                <field id="sender" translate="label comment" type="select" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Email Sender Identity</label>
+                    <source_model>Magento\Config\Model\Config\Source\Email\Identity</source_model>
+                    <config_path>lowstocknotification/email/sender</config_path>
+                    <comment>Choose which store email identity sends the back-in-stock notifications.</comment>
+                </field>
+                <field id="email_template" translate="label comment" type="select" sortOrder="20" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Email Template</label>
+                    <source_model>Magento\Config\Model\Config\Source\Email\Template</source_model>
+                    <config_path>lowstocknotification/email/email_template</config_path>
+                    <comment>Select the transactional email template for back-in-stock notifications.</comment>
+                </field>
+            </group>
+
+            <group id="security" translate="label comment" type="text" sortOrder="25" showInDefault="1" showInWebsite="1" showInStore="1">
+                <label>Abuse Protection</label>
+                <comment><![CDATA[Limits how often one client IP address can call the storefront subscribe and unsubscribe endpoints. The client IP is taken from Magento's remote address, which honours the trusted proxy headers configured in app/etc/env.php.]]></comment>
+                <field id="rate_limit" translate="label comment" type="text" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Requests per Window</label>
+                    <validate>validate-digits</validate>
+                    <config_path>lowstocknotification/security/rate_limit</config_path>
+                    <comment>Maximum subscribe or unsubscribe requests allowed per IP address in one window. Further requests get HTTP 429. Set to 0 to disable. Default: 10.</comment>
+                </field>
+                <field id="rate_limit_window" translate="label comment" type="text" sortOrder="20" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Window Length (seconds)</label>
+                    <validate>validate-digits</validate>
+                    <config_path>lowstocknotification/security/rate_limit_window</config_path>
+                    <comment>Length of the rate limit window in seconds. Default: 600.</comment>
+                </field>
+            </group>
+
+            <group id="design_note" translate="label comment" type="text" sortOrder="30" showInDefault="1" showInWebsite="1" showInStore="1">
+                <label>Design &amp; Colors</label>
+                <comment><![CDATA[
+                    Colors for the stock alert form are managed centrally in your theme configuration file.<br/><br/>
+                    <strong>File:</strong> <code>app/design/frontend/Panth/Infotech/web/tailwind/theme-config.json</code><br/>
+                    <strong>Section:</strong> <code>modules.low-stock-notification</code><br/><br/>
+                    After changing colors, run <code>node generate-theme-css.js</code> to regenerate CSS variables.
+                ]]></comment>
+            </group>
+        </section>
+    </system>
+</config>

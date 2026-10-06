@@ -1,0 +1,396 @@
+<?php
+/**
+ * Copyright © Panth Infotech. All rights reserved.
+ * Stock Alert - modern card design matching PriceDropAlert
+ * Uses CSS variables from theme-config.json (--lowstocknotification-*)
+ *
+ * @var $block \Panth\LowStockNotification\Block\StockAlert
+ * @var $escaper \Magento\Framework\Escaper
+ */
+
+if (!$block->shouldShowStockAlert()) {
+    return;
+}
+
+$productId = $block->getProductId();
+if (!$productId) {
+    return;
+}
+
+$customerEmail = $block->getCustomerEmail();
+$customerName = $block->getCustomerName();
+$isLoggedIn = $block->isCustomerLoggedIn();
+$allowGuests = $block->isGuestSubscriptionAllowed();
+$loginUrl = $block->getLoginUrl();
+$compact = $block->isCompact();
+$uid = 'sa-' . (int)$productId;
+?>
+
+<style>
+    .sa-root { --sa-link: var(--lowstocknotification-link, #B91C1C); --sa-heading: var(--lowstocknotification-heading, #171717); }
+    .sa-trigger {
+        display: inline-flex; align-items: center; gap: 0.5rem;
+        min-height: 2.75rem; padding: 0 0.25rem; margin: 0.25rem 0 0;
+        background: none; border: 0; cursor: pointer;
+        font-family: inherit; font-size: 0.9375rem; font-weight: 600; line-height: 1.3;
+        color: var(--sa-link); text-align: left;
+        text-decoration: underline; text-underline-offset: 3px; text-decoration-thickness: 1px;
+    }
+    .sa-trigger:hover { text-decoration-thickness: 2px; }
+    .sa-trigger:focus-visible { outline: 2px solid var(--sa-link); outline-offset: 2px; border-radius: 0.25rem; }
+    .sa-trigger svg { width: 1.125rem; height: 1.125rem; flex-shrink: 0; }
+    .sa-dialog {
+        padding: 0; border: 0; border-radius: 0.75rem; background: #fff; color: var(--sa-heading);
+        width: calc(100% - 2rem); max-width: 28rem; max-height: calc(100dvh - 2rem); overflow: auto;
+        box-shadow: 0 20px 50px rgba(0,0,0,0.25);
+    }
+    .sa-dialog::backdrop { background: rgba(23,23,23,0.55); }
+    .sa-dialog-inner { position: relative; }
+    .sa-dialog .sa-wrap { margin: 0; border: 0; border-radius: 0; box-shadow: none; }
+    .sa-dialog .sa-hdr { padding-right: 3.5rem; }
+    .sa-dialog .sa-toast { margin: 0 1rem 1rem; }
+    .sa-dialog-close {
+        position: absolute; top: 0.375rem; right: 0.375rem; z-index: 2;
+        width: 2.75rem; height: 2.75rem; display: flex; align-items: center; justify-content: center;
+        background: none; border: 0; border-radius: 0.5rem; color: #fff; cursor: pointer;
+    }
+    .sa-dialog-close:hover { background: rgba(255,255,255,0.15); }
+    .sa-dialog-close:focus-visible { outline: 2px solid #fff; outline-offset: -2px; }
+    .sa-dialog-close svg { width: 1.125rem; height: 1.125rem; }
+    .sa-wrap {
+        --sa-primary: var(--lowstocknotification-primary, #DC2626);
+        --sa-from: var(--lowstocknotification-btn-from, #DC2626);
+        --sa-to: var(--lowstocknotification-btn-to, #DC2626);
+        --sa-border: var(--lowstocknotification-box-border, #E5E5E5);
+        --sa-heading: var(--lowstocknotification-heading, #171717);
+        --sa-muted: var(--color-fg-secondary, #525252);
+        font-family: inherit;
+        background: #fff;
+        border: 1px solid var(--sa-border);
+        border-radius: 0.75rem;
+        box-shadow: 0 2px 12px rgba(0,0,0,0.05);
+        overflow: hidden;
+        margin: 1rem 0;
+    }
+    .sa-hdr {
+        background: var(--sa-to);
+        background: linear-gradient(135deg, color-mix(in srgb, var(--sa-from) 80%, #000), color-mix(in srgb, var(--sa-to) 80%, #000));
+        padding: 0.875rem 1.25rem;
+        display: flex; align-items: center; gap: 0.625rem;
+    }
+    .sa-hdr-icon {
+        width: 2rem; height: 2rem; border-radius: 50%;
+        background: rgba(255,255,255,0.2);
+        display: flex; align-items: center; justify-content: center; flex-shrink: 0;
+    }
+    .sa-hdr-icon svg { width: 1rem; height: 1rem; color: #fff; }
+    .sa-hdr h3 { font-size: 0.9375rem; font-weight: 700; color: #fff; margin: 0; line-height: 1.3; }
+    .sa-hdr p { font-size: 0.8125rem; color: #fff; margin: 0.0625rem 0 0; }
+    .sa-body { padding: 1.25rem; }
+    .sa-field { margin-bottom: 0.75rem; }
+    .sa-field label {
+        display: block; font-size: 0.875rem; font-weight: 600;
+        color: var(--sa-heading); margin-bottom: 0.3125rem;
+    }
+    .sa-field input {
+        width: 100%; padding: 0.625rem 0.75rem;
+        font-size: 1rem; height: 2.875rem; min-height: 2.875rem; font-family: inherit; border: 1px solid #D4D4D4;
+        border-radius: 0.5rem; background: #fff; color: var(--sa-heading);
+        transition: border-color 0.2s, box-shadow 0.2s; outline: none;
+        box-sizing: border-box;
+    }
+    .sa-field input:focus {
+        border-color: var(--color-primary-fill, #0F766E);
+        box-shadow: 0 0 0 3px rgba(15,118,110,0.15);
+    }
+    .sa-field input::placeholder { color: #737373; }
+    .sa-submit {
+        display: flex; align-items: center; justify-content: center; gap: 0.5rem;
+        width: 100%; min-height: 2.75rem; padding: 0.625rem 1.5rem; font-family: inherit;
+        font-size: 0.9375rem; font-weight: 600; line-height: 1.5;
+        color: #fff;
+        background: var(--color-primary-fill, #0F766E);
+        border: none; border-radius: 0.5rem; cursor: pointer;
+        transition: background-color 0.2s;
+        box-shadow: none;
+    }
+    .sa-submit:hover { background: #115E59; }
+    .sa-submit:disabled { opacity: 0.5; cursor: not-allowed; transform: none; }
+    .sa-trust {
+        display: flex; align-items: center; justify-content: center;
+        flex-wrap: wrap; gap: 0.5rem 1rem; margin-top: 0.75rem; padding-top: 0.625rem;
+        border-top: 1px solid #f0f0f0;
+    }
+    .sa-trust span {
+        display: flex; align-items: center; gap: 0.25rem;
+        font-size: 0.75rem; color: var(--sa-muted);
+    }
+    .sa-trust svg { width: 0.75rem; height: 0.75rem; color: var(--sa-primary); flex-shrink: 0; }
+    @media (max-width: 639px) {
+        .sa-wrap { margin: 0.75rem 0; border-radius: 0.5rem; }
+        .sa-hdr { padding: 0.75rem 1rem; }
+        .sa-hdr h3 { font-size: 0.9375rem; }
+        .sa-hdr p { font-size: 0.75rem; }
+        .sa-body { padding: 1rem; }
+        .sa-field input { padding: 0.625rem 0.75rem; font-size: 1rem; }
+        .sa-submit { min-height: 3rem; padding: 0.625rem 1rem; font-size: 0.9375rem; }
+        .sa-trust { gap: 0.25rem 0.75rem; }
+        .sa-trust span { font-size: 0.75rem; }
+    }
+    .sa-toast {
+        padding: 0.625rem 1rem; font-size: 0.875rem; font-weight: 500;
+        display: flex; align-items: center; gap: 0.5rem;
+        border: 1px solid #e8ecef; border-radius: 0.5rem; margin: 0 0 1rem;
+    }
+    .sa-toast.success { background: #f0fdf4; color: #166534; border-color: #bbf7d0; }
+    .sa-toast.error { background: #fef2f2; color: #991b1b; border-color: #fecaca; }
+    .sa-toast svg { width: 1rem; height: 1rem; flex-shrink: 0; }
+    .sa-toast .close { margin-left: auto; background: none; border: none; cursor: pointer; color: inherit; padding: 0; width: 2rem; height: 2rem; display: flex; align-items: center; justify-content: center; border-radius: 0.375rem; flex-shrink: 0; }
+    .sa-toast .close:focus-visible { outline: 2px solid currentColor; outline-offset: 1px; }
+    .sa-login { font-size: 0.875rem; color: var(--sa-muted); margin: 0 0 0.75rem; }
+    .sa-login a { color: var(--sa-heading); font-weight: 600; text-decoration: underline; }
+</style>
+
+<div class="sa-root" x-data="stockAlertComponent(<?= (int)$productId ?>, '<?= $escaper->escapeJs($customerEmail ?: '') ?>', '<?= $escaper->escapeJs($customerName ?: '') ?>', <?= $isLoggedIn ? 'true' : 'false' ?>, <?= $allowGuests ? 'true' : 'false' ?>)">
+<?php if ($compact): ?>
+    <button type="button" class="sa-trigger" x-ref="trigger" @click="openDialog()"
+            aria-haspopup="dialog" aria-expanded="false" :aria-expanded="dialogOpen ? 'true' : 'false'"
+            aria-controls="<?= $escaper->escapeHtmlAttr($uid) ?>-dialog">
+        <svg x-show="!subscribed" aria-hidden="true" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9"/></svg>
+        <svg x-show="subscribed" aria-hidden="true" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7"/></svg>
+        <span x-text="subscribed ? '<?= $escaper->escapeJs(__('Back in stock alert is on')) ?>' : '<?= $escaper->escapeJs(__('Notify me when back in stock')) ?>'"><?= $escaper->escapeHtml(__('Notify me when back in stock')) ?></span>
+    </button>
+    <dialog class="sa-dialog" id="<?= $escaper->escapeHtmlAttr($uid) ?>-dialog" x-ref="dialog"
+            aria-label="<?= $escaper->escapeHtmlAttr(__('Back in stock alert')) ?>"
+            @close="onDialogClose()" @cancel="onDialogClose()" @click.self="closeDialog()" @keydown.tab="trapFocus($event)">
+        <div class="sa-dialog-inner">
+            <button type="button" class="sa-dialog-close" @click="closeDialog()" aria-label="<?= $escaper->escapeHtmlAttr(__('Close')) ?>">
+                <svg aria-hidden="true" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg>
+            </button>
+<?php endif; ?>
+
+    <!-- Subscribe Form -->
+    <div x-show="!subscribed" x-transition class="sa-wrap">
+        <div class="sa-hdr">
+            <div class="sa-hdr-icon">
+                <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9"/></svg>
+            </div>
+            <div>
+                <h3><?= $escaper->escapeHtml(__('Notify Me When Available')) ?></h3>
+                <p><?= $escaper->escapeHtml(__('Get emailed when this product is back in stock')) ?></p>
+            </div>
+        </div>
+
+        <div class="sa-body">
+            <form @submit.prevent="subscribe()">
+                <!-- Guest: show name/email fields -->
+                <template x-if="!isLoggedIn && !allowGuests">
+                    <p class="sa-login">
+                        <a href="<?= $escaper->escapeUrl($loginUrl) ?>"><?= $escaper->escapeHtml(__('Sign in')) ?></a>
+                        <?= $escaper->escapeHtml(__('to get notified when this product is back in stock.')) ?>
+                    </p>
+                </template>
+                <template x-if="!isLoggedIn && allowGuests">
+                    <div>
+                        <div class="sa-field">
+                            <label for="sa-name-<?= (int)$productId ?>"><?= $escaper->escapeHtml(__('Your Name')) ?> <span style="color:var(--color-error, #DC2626);">*</span></label>
+                            <input type="text" id="sa-name-<?= (int)$productId ?>" x-model="customerName" required placeholder="<?= $escaper->escapeHtmlAttr(__('John Doe')) ?>">
+                        </div>
+                        <div class="sa-field">
+                            <label for="sa-email-<?= (int)$productId ?>"><?= $escaper->escapeHtml(__('Email Address')) ?> <span style="color:var(--color-error, #DC2626);">*</span></label>
+                            <input type="email" id="sa-email-<?= (int)$productId ?>" x-model="email" required placeholder="<?= $escaper->escapeHtmlAttr(__('you@example.com')) ?>">
+                        </div>
+                    </div>
+                </template>
+                <!-- Logged in: show email or loading -->
+                <template x-if="isLoggedIn">
+                    <div style="margin-bottom:0.75rem;">
+                        <p x-show="email" style="font-size:0.875rem; color:var(--color-fg-secondary, #525252); margin:0;">
+                            <?= $escaper->escapeHtml(__('Notification will be sent to:')) ?> <strong x-text="email" style="color:var(--color-fg, #171717);"></strong>
+                        </p>
+                        <p x-show="customerName && !email" style="font-size:0.875rem; color:var(--color-fg-secondary, #525252); margin:0;">
+                            <?= $escaper->escapeHtml(__('Hi')) ?> <strong x-text="customerName" style="color:var(--color-fg, #171717);"></strong>, <?= $escaper->escapeHtml(__('click below to subscribe.')) ?>
+                        </p>
+                    </div>
+                </template>
+
+                <button type="submit" x-show="isLoggedIn || allowGuests" :disabled="submitting" class="sa-submit">
+                    <div x-show="submitting" class="animate-spin rounded-full" style="width:1rem; height:1rem; border:2px solid rgba(255,255,255,0.3); border-top-color:#fff;"></div>
+                    <svg x-show="!submitting" style="width:1rem; height:1rem;" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9"/></svg>
+                    <span x-text="submitting ? '<?= $escaper->escapeJs(__('Subscribing...')) ?>' : '<?= $escaper->escapeJs(__('Notify Me When Available')) ?>'"></span>
+                </button>
+
+                <div class="sa-trust">
+                    <span><svg fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/></svg><?= $escaper->escapeHtml(__('Instant Alerts')) ?></span>
+                    <span><svg fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/></svg><?= $escaper->escapeHtml(__('Unsubscribe Anytime')) ?></span>
+                    <span><svg fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/></svg><?= $escaper->escapeHtml(__('100% Free')) ?></span>
+                </div>
+            </form>
+        </div>
+
+    </div>
+
+    <!-- Subscribed state -->
+    <div x-show="subscribed" x-transition class="sa-wrap">
+        <div class="sa-hdr" style="background: linear-gradient(135deg, #047857, #065f46);">
+            <div class="sa-hdr-icon">
+                <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7"/></svg>
+            </div>
+            <div>
+                <h3><?= $escaper->escapeHtml(__('Stock Alert Active')) ?></h3>
+            </div>
+        </div>
+        <div style="padding:0.75rem 1.25rem; display:flex; justify-content:space-between; align-items:center;">
+            <span style="font-size:0.875rem; color:var(--color-fg-secondary, #525252);"><?= $escaper->escapeHtml(__("We'll email you when this product is back in stock.")) ?></span>
+            <button @click="unsubscribe()" :disabled="submitting" style="font-size:0.8125rem; font-weight:600; color:var(--color-fg-secondary, #525252); background:none; border:1px solid #d4d4d4; border-radius:0.5rem; padding:0.375rem 0.75rem; min-height:2.75rem; cursor:pointer;">
+                <span x-text="submitting ? '<?= $escaper->escapeJs(__('Removing...')) ?>' : '<?= $escaper->escapeJs(__('Remove')) ?>'"></span>
+            </button>
+        </div>
+    </div>
+
+    <div x-show="notification.show" x-transition class="sa-toast" :class="notification.type" role="status" aria-live="polite">
+        <svg x-show="notification.type === 'success'" style="color:#16a34a;" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/></svg>
+        <svg x-show="notification.type === 'error'" style="color:#dc2626;" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z" clip-rule="evenodd"/></svg>
+        <span x-text="notification.message"></span>
+        <button type="button" @click="notification.show = false" class="close" aria-label="<?= $escaper->escapeHtmlAttr(__('Close')) ?>"><svg style="width:0.75rem; height:0.75rem;" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clip-rule="evenodd"/></svg></button>
+    </div>
+<?php if ($compact): ?>
+        </div>
+    </dialog>
+<?php endif; ?>
+</div>
+
+<script>
+document.addEventListener('alpine:init', () => {
+    Alpine.data('stockAlertComponent', (productId, customerEmail, customerName, isLoggedIn, allowGuests) => ({
+        productId, email: customerEmail, customerName, isLoggedIn, allowGuests,
+        subscribed: false, submitting: false, dialogOpen: false,
+        notification: { show: false, message: '', type: 'success' },
+        notificationTimer: null,
+
+        init() {
+            // Detect logged-in customer via Magento section data (FPC compatible)
+            try {
+                const sections = JSON.parse(localStorage.getItem('mage-cache-storage') || '{}');
+                if (sections.customer && sections.customer.firstname) {
+                    this.isLoggedIn = true;
+                    this.customerName = sections.customer.firstname + (sections.customer.lastname ? ' ' + sections.customer.lastname : '');
+                    if (sections.customer.email) {
+                        this.email = sections.customer.email;
+                    }
+                }
+            } catch (e) {}
+
+            // If logged in but no email from cache, fetch via AJAX
+            if (this.isLoggedIn && !this.email) {
+                fetch(BASE_URL + 'customer/section/load/?sections=customer', { credentials: 'include' })
+                    .then(r => r.json())
+                    .then(data => {
+                        if (data.customer && data.customer.email) {
+                            this.email = data.customer.email;
+                        }
+                        if (data.customer && data.customer.firstname && !this.customerName) {
+                            this.customerName = data.customer.firstname + (data.customer.lastname ? ' ' + data.customer.lastname : '');
+                        }
+                    }).catch(() => {});
+            }
+
+            this.checkStatus();
+        },
+
+        focusables() {
+            const root = this.$refs.dialog;
+            if (!root) return [];
+            return [...root.querySelectorAll('a[href], button:not([disabled]), input:not([disabled]), [tabindex]:not([tabindex="-1"])')]
+                .filter(el => el.getClientRects().length > 0);
+        },
+        openDialog() {
+            const dialog = this.$refs.dialog;
+            if (!dialog || dialog.open) return;
+            dialog.showModal();
+            this.dialogOpen = true;
+            setTimeout(() => this.focusFirst(), 50);
+        },
+        focusFirst() {
+            if (!this.dialogOpen) return;
+            const items = this.focusables().filter(el => !el.classList.contains('sa-dialog-close'));
+            const first = items.find(el => el.tagName === 'INPUT') || items[0];
+            if (first) first.focus();
+        },
+        closeDialog() {
+            const dialog = this.$refs.dialog;
+            if (dialog && dialog.open) dialog.close();
+            this.onDialogClose();
+        },
+        onDialogClose() {
+            this.dialogOpen = false;
+            if (this.$refs.trigger) this.$refs.trigger.focus();
+        },
+        trapFocus(event) {
+            const items = this.focusables();
+            if (!items.length) return;
+            const first = items[0];
+            const last = items[items.length - 1];
+            if (event.shiftKey && document.activeElement === first) {
+                event.preventDefault();
+                last.focus();
+            } else if (!event.shiftKey && document.activeElement === last) {
+                event.preventDefault();
+                first.focus();
+            }
+        },
+
+        async checkStatus() {
+            if (!this.isLoggedIn && !this.allowGuests) return;
+            try {
+                const url = new URL('<?= $escaper->escapeJs($block->getStatusUrl()) ?>');
+                url.searchParams.set('product_id', this.productId);
+                const data = await (await fetch(url.toString(), { credentials: 'include', cache: 'no-store' })).json();
+                this.subscribed = !!data.subscribed;
+            } catch (e) {}
+        },
+
+        async subscribe() {
+            if (!this.isLoggedIn && !this.allowGuests) return;
+            if (!this.isLoggedIn && (!this.customerName || !this.customerName.trim()))
+                return this.showNotification('<?= $escaper->escapeJs(__('Please enter your name')) ?>', 'error');
+            if (!this.isLoggedIn && (!this.email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(this.email)))
+                return this.showNotification('<?= $escaper->escapeJs(__('Please enter a valid email')) ?>', 'error');
+
+            this.submitting = true;
+            try {
+                const fd = new FormData();
+                fd.append('product_id', this.productId);
+                if (!this.isLoggedIn) { fd.append('email', this.email); fd.append('customer_name', this.customerName); }
+                fd.append('form_key', hyva.getFormKey());
+                const data = await (await fetch('<?= $escaper->escapeUrl($block->getSubscribeUrl()) ?>', { method: 'POST', body: fd })).json();
+                if (data.success) {
+                    this.showNotification(data.message || '<?= $escaper->escapeJs(__('Subscribed!')) ?>', 'success');
+                    this.subscribed = true;
+                } else this.showNotification(data.message || '<?= $escaper->escapeJs(__('Failed')) ?>', 'error');
+            } catch (e) { this.showNotification('<?= $escaper->escapeJs(__('An error occurred.')) ?>', 'error'); }
+            finally { this.submitting = false; }
+        },
+
+        async unsubscribe() {
+            this.submitting = true;
+            try {
+                const fd = new FormData();
+                fd.append('product_id', this.productId);
+                if (!this.isLoggedIn) fd.append('email', this.email);
+                fd.append('form_key', hyva.getFormKey());
+                const data = await (await fetch('<?= $escaper->escapeUrl($block->getUnsubscribeUrl()) ?>', { method: 'POST', body: fd })).json();
+                if (data.success) { this.subscribed = false; this.showNotification('<?= $escaper->escapeJs(__('Unsubscribed')) ?>', 'success'); }
+                else this.showNotification(data.message || '<?= $escaper->escapeJs(__('Failed')) ?>', 'error');
+            } catch (e) { this.showNotification('<?= $escaper->escapeJs(__('An error occurred.')) ?>', 'error'); }
+            finally { this.submitting = false; }
+        },
+
+        showNotification(message, type) {
+            clearTimeout(this.notificationTimer);
+            this.notification = { show: true, message, type };
+            this.notificationTimer = setTimeout(() => { this.notification.show = false; }, 5000);
+        }
+    }));
+});
+</script>

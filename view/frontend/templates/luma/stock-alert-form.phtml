@@ -1,0 +1,372 @@
+<?php
+/**
+ * Copyright © Panth Infotech. All rights reserved.
+ * Stock Alert - Luma version (vanilla JS, no Alpine.js)
+ *
+ * @var $block \Panth\LowStockNotification\Block\StockAlert
+ * @var $escaper \Magento\Framework\Escaper
+ */
+
+if (!$block->shouldShowStockAlert()) {
+    return;
+}
+
+$productId = $block->getProductId();
+if (!$productId) {
+    return;
+}
+
+$customerEmail = $block->getCustomerEmail();
+$customerName = $block->getCustomerName();
+$isLoggedIn = $block->isCustomerLoggedIn();
+$allowGuests = $block->isGuestSubscriptionAllowed();
+$uid = 'sa-' . (int)$productId;
+$loginUrl = $block->getLoginUrl();
+$compact = $block->isCompact();
+?>
+
+<style>
+.sa-root { --sa-link:#B91C1C; --sa-heading:#171717; }
+.sa-trigger { display:inline-flex!important; align-items:center!important; gap:8px!important; min-height:44px!important; padding:0 4px!important; margin:4px 0 0!important; background:none!important; border:0!important; box-shadow:none!important; border-radius:4px!important; cursor:pointer!important; font-family:inherit!important; font-size:15px!important; font-weight:600!important; line-height:1.3!important; color:var(--sa-link)!important; text-align:left!important; text-decoration:underline!important; text-underline-offset:3px; text-decoration-thickness:1px; }
+.sa-trigger:hover { text-decoration-thickness:2px; }
+.sa-trigger:focus-visible { outline:2px solid var(--sa-link)!important; outline-offset:2px; }
+.sa-trigger svg { width:18px; height:18px; flex-shrink:0; }
+.sa-dialog { padding:0; border:0; border-radius:12px; background:#fff; color:var(--sa-heading); width:calc(100% - 32px); max-width:448px; max-height:calc(100dvh - 32px); overflow:auto; box-shadow:0 20px 50px rgba(0,0,0,0.25); }
+.sa-dialog::backdrop { background:rgba(23,23,23,0.55); }
+.sa-dialog-inner { position:relative; }
+.sa-dialog .sa-wrap { margin:0; border:0; border-radius:0; box-shadow:none; }
+.sa-dialog .sa-hdr { padding-right:56px; }
+.sa-dialog .sa-toast { margin:0 16px 16px; }
+.sa-dialog-close { position:absolute!important; top:6px; right:6px; z-index:2; width:44px!important; height:44px!important; min-height:44px!important; padding:0!important; display:flex!important; align-items:center; justify-content:center; background:none!important; border:0!important; box-shadow:none!important; border-radius:8px!important; color:#fff!important; cursor:pointer; }
+.sa-dialog-close:hover { background:rgba(255,255,255,0.15)!important; }
+.sa-dialog-close:focus-visible { outline:2px solid #fff!important; outline-offset:-2px; }
+.sa-dialog-close svg { width:18px; height:18px; }
+.sa-wrap { --sa-primary:#DC2626; --sa-from:#DC2626; --sa-to:#DC2626; --sa-muted:var(--color-fg-secondary, #525252); --sa-border:#E5E5E5; --sa-heading:#171717; background:#fff; border:1px solid var(--sa-border); border-radius:12px; box-shadow:0 2px 12px rgba(0,0,0,0.05); overflow:hidden; margin:16px 0; font-family:'DM Sans','Inter',system-ui,sans-serif; }
+.sa-hdr { background:linear-gradient(135deg,var(--sa-from),var(--sa-to)); padding:14px 20px; display:flex; align-items:center; gap:10px; }
+.sa-hdr-icon { width:32px; height:32px; border-radius:50%; background:rgba(255,255,255,0.2); display:flex; align-items:center; justify-content:center; flex-shrink:0; }
+.sa-hdr-icon svg { width:16px; height:16px; color:#fff; }
+.sa-hdr h3 { font-size:15px; font-weight:700; color:#fff; margin:0; line-height:1.3; }
+.sa-hdr p { font-size:13px; color:#fff; margin:1px 0 0; }
+.sa-body { padding:20px; }
+.sa-field { margin-bottom:12px; }
+.sa-field label { display:block; font-size:14px; font-weight:600; color:var(--sa-heading); margin-bottom:5px; }
+.sa-field input { width:100%!important; padding:10px 12px!important; font-size:16px!important; border:1px solid #D4D4D4!important; border-radius:8px!important; background:#fff!important; color:var(--sa-heading)!important; outline:none!important; box-sizing:border-box!important; box-shadow:none!important; font-family:inherit!important; min-height:46px!important; height:46px!important; line-height:1.5!important; }
+.sa-field input::placeholder { color:#737373; }
+.sa-field input:focus { border-color:#0F766E!important; box-shadow:0 0 0 3px rgba(15,118,110,0.15)!important; }
+.sa-submit { display:flex!important; align-items:center!important; justify-content:center!important; gap:8px!important; width:100%!important; min-height:44px!important; padding:10px 24px!important; font-family:inherit!important; font-size:15px!important; font-weight:600!important; line-height:1.5!important; color:#fff!important; background:#0F766E!important; border:none!important; border-radius:8px!important; cursor:pointer!important; box-shadow:none!important; transition:background-color 0.2s!important; }
+.sa-submit:hover { background:#115E59!important; }
+.sa-submit:disabled { opacity:0.5; cursor:not-allowed!important; transform:none; }
+.sa-trust { display:flex; flex-wrap:wrap; align-items:center; justify-content:center; gap:8px 16px; margin-top:12px; padding-top:10px; border-top:1px solid #f0f0f0; }
+.sa-trust span { display:flex; align-items:center; gap:4px; font-size:12px; color:var(--sa-muted); }
+.sa-trust svg { width:12px; height:12px; color:var(--sa-primary); flex-shrink:0; }
+.sa-toast { padding:10px 16px; font-size:14px; font-weight:500; display:none; align-items:center; gap:8px; border:1px solid #e8ecef; border-radius:8px; margin:0 0 16px; }
+.sa-toast.visible { display:flex; }
+.sa-toast.success { background:#f0fdf4; color:#166534; border-color:#bbf7d0; }
+.sa-toast.error { background:#fef2f2; color:#991b1b; border-color:#fecaca; }
+.sa-toast svg { width:16px; height:16px; flex-shrink:0; }
+.sa-toast .close { margin-left:auto!important; background:none!important; border:none!important; box-shadow:none!important; cursor:pointer; color:inherit!important; padding:0!important; width:32px; height:32px; min-height:0!important; display:flex; align-items:center; justify-content:center; border-radius:6px; flex-shrink:0; }
+.sa-toast .close:focus-visible { outline:2px solid currentColor; outline-offset:1px; }
+.sa-login { font-size:14px; color:var(--sa-muted); margin:0 0 12px; }
+.sa-login a { color:var(--sa-heading); font-weight:600; text-decoration:underline; }
+.sa-subscribed-info { padding:12px 20px; display:flex; justify-content:space-between; align-items:center; }
+.sa-subscribed-info span { font-size:14px; color:var(--sa-muted); }
+.sa-unsub-btn { font-size:12px!important; font-weight:600!important; color:var(--sa-muted)!important; background:none!important; border:1px solid #d4d4d4!important; border-radius:8px!important; padding:6px 12px!important; cursor:pointer!important; min-height:44px!important; }
+@media (max-width:639px) { .sa-wrap { margin:12px 0; } .sa-hdr { padding:12px 16px; } .sa-hdr h3 { font-size:15px; } .sa-body { padding:16px; } .sa-submit { min-height:48px!important; } .sa-trust { gap:4px 12px; } .sa-trust span { font-size:12px; } }
+</style>
+
+<div class="sa-root" id="<?= $escaper->escapeHtmlAttr($uid) ?>-root">
+<?php if ($compact): ?>
+<button type="button" class="sa-trigger" id="<?= $escaper->escapeHtmlAttr($uid) ?>-trigger" aria-haspopup="dialog" aria-expanded="false" aria-controls="<?= $escaper->escapeHtmlAttr($uid) ?>-dialog">
+    <svg class="sa-trigger-bell" aria-hidden="true" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9"/></svg>
+    <svg class="sa-trigger-check" aria-hidden="true" style="display:none;" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7"/></svg>
+    <span><?= $escaper->escapeHtml(__('Notify me when back in stock')) ?></span>
+</button>
+<dialog class="sa-dialog" id="<?= $escaper->escapeHtmlAttr($uid) ?>-dialog" aria-label="<?= $escaper->escapeHtmlAttr(__('Back in stock alert')) ?>">
+<div class="sa-dialog-inner">
+<button type="button" class="sa-dialog-close" id="<?= $escaper->escapeHtmlAttr($uid) ?>-dialog-close" aria-label="<?= $escaper->escapeHtmlAttr(__('Close')) ?>"><svg aria-hidden="true" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg></button>
+<?php endif; ?>
+<div class="sa-wrap" id="<?= $escaper->escapeHtmlAttr($uid) ?>-form">
+    <div class="sa-hdr">
+        <div class="sa-hdr-icon">
+            <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9"/></svg>
+        </div>
+        <div>
+            <h3><?= $escaper->escapeHtml(__('Notify Me When Available')) ?></h3>
+            <p><?= $escaper->escapeHtml(__('Get emailed when this product is back in stock')) ?></p>
+        </div>
+    </div>
+    <div class="sa-body">
+        <form id="<?= $escaper->escapeHtmlAttr($uid) ?>-subscribe-form" onsubmit="return false;">
+            <!-- Guest fields (shown/hidden by JS based on login state) -->
+            <div id="<?= $escaper->escapeHtmlAttr($uid) ?>-guest-fields">
+                <div class="sa-field">
+                    <label for="<?= $escaper->escapeHtmlAttr($uid) ?>-name"><?= $escaper->escapeHtml(__('Your Name')) ?> <span style="color:var(--color-error, #DC2626);">*</span></label>
+                    <input type="text" id="<?= $escaper->escapeHtmlAttr($uid) ?>-name" required autocomplete="name" placeholder="<?= $escaper->escapeHtmlAttr(__('John Doe')) ?>" value="<?= $escaper->escapeHtmlAttr($customerName ?: '') ?>">
+                </div>
+                <div class="sa-field">
+                    <label for="<?= $escaper->escapeHtmlAttr($uid) ?>-email"><?= $escaper->escapeHtml(__('Email Address')) ?> <span style="color:var(--color-error, #DC2626);">*</span></label>
+                    <input type="email" id="<?= $escaper->escapeHtmlAttr($uid) ?>-email" required autocomplete="email" placeholder="<?= $escaper->escapeHtmlAttr(__('you@example.com')) ?>" value="<?= $escaper->escapeHtmlAttr($customerEmail ?: '') ?>">
+                </div>
+            </div>
+            <p class="sa-login" id="<?= $escaper->escapeHtmlAttr($uid) ?>-login-msg" style="display:none;">
+                <a href="<?= $escaper->escapeUrl($loginUrl) ?>"><?= $escaper->escapeHtml(__('Sign in')) ?></a>
+                <?= $escaper->escapeHtml(__('to get notified when this product is back in stock.')) ?>
+            </p>
+            <!-- Logged-in message (hidden by default, shown by JS) -->
+            <p id="<?= $escaper->escapeHtmlAttr($uid) ?>-logged-msg" style="font-size:14px; color:var(--color-fg-secondary, #525252); margin:0 0 12px; display:none;">
+                <?= $escaper->escapeHtml(__('Notification will be sent to:')) ?> <strong id="<?= $escaper->escapeHtmlAttr($uid) ?>-logged-email" style="color:var(--color-fg, #171717);"></strong>
+            </p>
+            <button type="submit" class="sa-submit" id="<?= $escaper->escapeHtmlAttr($uid) ?>-btn">
+                <svg style="width:16px;height:16px;" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9"/></svg>
+                <span><?= $escaper->escapeHtml(__('Notify Me When Available')) ?></span>
+            </button>
+            <div class="sa-trust">
+                <span><svg fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/></svg><?= $escaper->escapeHtml(__('Instant Alerts')) ?></span>
+                <span><svg fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/></svg><?= $escaper->escapeHtml(__('Unsubscribe Anytime')) ?></span>
+                <span><svg fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/></svg><?= $escaper->escapeHtml(__('100% Free')) ?></span>
+            </div>
+        </form>
+    </div>
+</div>
+
+<!-- Subscribed state (hidden by default) -->
+<div class="sa-wrap" id="<?= $escaper->escapeHtmlAttr($uid) ?>-subscribed" style="display:none;">
+    <div class="sa-hdr" style="background:linear-gradient(135deg,#047857,#065f46);">
+        <div class="sa-hdr-icon"><svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7"/></svg></div>
+        <div><h3><?= $escaper->escapeHtml(__('Stock Alert Active')) ?></h3></div>
+    </div>
+    <div class="sa-subscribed-info">
+        <span><?= $escaper->escapeHtml(__("We'll email you when this product is back in stock.")) ?></span>
+        <button type="button" class="sa-unsub-btn" id="<?= $escaper->escapeHtmlAttr($uid) ?>-unsub"><?= $escaper->escapeHtml(__('Remove')) ?></button>
+    </div>
+</div>
+
+<div class="sa-toast" id="<?= $escaper->escapeHtmlAttr($uid) ?>-toast" role="status" aria-live="polite">
+    <svg class="sa-toast-ok" style="color:#16a34a;display:none;" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/></svg>
+    <svg class="sa-toast-err" style="color:#dc2626;display:none;" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z" clip-rule="evenodd"/></svg>
+    <span class="sa-toast-msg"></span>
+    <button class="close" type="button" aria-label="<?= $escaper->escapeHtmlAttr(__('Close')) ?>"><svg style="width:12px;height:12px;" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clip-rule="evenodd"/></svg></button>
+</div>
+<?php if ($compact): ?>
+</div>
+</dialog>
+<?php endif; ?>
+</div>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    'use strict';
+    var uid = '<?= $escaper->escapeJs($uid) ?>';
+    var productId = <?= (int)$productId ?>;
+    var isLoggedIn = false;
+    var allowGuests = <?= $allowGuests ? 'true' : 'false' ?>;
+    var customerEmail = '';
+
+    // Detect logged-in customer via Magento localStorage (FPC compatible)
+    try {
+        var sections = JSON.parse(localStorage.getItem('mage-cache-storage') || '{}');
+        if (sections.customer && sections.customer.firstname) {
+            isLoggedIn = true;
+            customerEmail = sections.customer.email || '';
+            var guestFields = document.getElementById(uid + '-guest-fields');
+            var loggedMsg = document.getElementById(uid + '-logged-msg');
+            var loggedEmailEl = document.getElementById(uid + '-logged-email');
+            if (guestFields) {
+                guestFields.style.display = 'none';
+                guestFields.querySelectorAll('[required]').forEach(function(el) { el.required = false; });
+            }
+            if (loggedMsg && customerEmail) {
+                loggedMsg.style.display = '';
+                if (loggedEmailEl) loggedEmailEl.textContent = customerEmail;
+            }
+        }
+    } catch(e) {}
+    if (!isLoggedIn && !allowGuests) {
+        var gf = document.getElementById(uid + '-guest-fields');
+        if (gf) {
+            gf.style.display = 'none';
+            gf.querySelectorAll('[required]').forEach(function(el) { el.required = false; });
+        }
+        document.getElementById(uid + '-login-msg').style.display = '';
+        document.getElementById(uid + '-btn').style.setProperty('display', 'none', 'important');
+    }
+    var formEl = document.getElementById(uid + '-form');
+    var subscribedEl = document.getElementById(uid + '-subscribed');
+    var toast = document.getElementById(uid + '-toast');
+    var btn = document.getElementById(uid + '-btn');
+    var form = document.getElementById(uid + '-subscribe-form');
+    var unsubBtn = document.getElementById(uid + '-unsub');
+    var toastTimer;
+    var dialog = document.getElementById(uid + '-dialog');
+    var trigger = document.getElementById(uid + '-trigger');
+    var labelOff = '<?= $escaper->escapeJs(__('Notify me when back in stock')) ?>';
+    var labelOn = '<?= $escaper->escapeJs(__('Back in stock alert is on')) ?>';
+
+    function setTrigger(on) {
+        if (!trigger) return;
+        trigger.querySelector('span').textContent = on ? labelOn : labelOff;
+        trigger.querySelector('.sa-trigger-bell').style.display = on ? 'none' : '';
+        trigger.querySelector('.sa-trigger-check').style.display = on ? '' : 'none';
+    }
+
+    function focusables() {
+        return Array.prototype.filter.call(
+            dialog.querySelectorAll('a[href], button:not([disabled]), input:not([disabled]), [tabindex]:not([tabindex="-1"])'),
+            function(el) { return el.getClientRects().length > 0; }
+        );
+    }
+
+    if (dialog && trigger && typeof dialog.showModal === 'function') {
+        trigger.addEventListener('click', function() {
+            if (dialog.open) return;
+            dialog.showModal();
+            trigger.setAttribute('aria-expanded', 'true');
+            var items = focusables().filter(function(el) { return el.className.indexOf('sa-dialog-close') === -1; });
+            var first = items.filter(function(el) { return el.tagName === 'INPUT'; })[0] || items[0];
+            if (first) first.focus();
+        });
+        var afterClose = function() {
+            trigger.setAttribute('aria-expanded', 'false');
+            trigger.focus();
+        };
+        var closeDialog = function() {
+            if (dialog.open) dialog.close();
+            afterClose();
+        };
+        dialog.addEventListener('close', afterClose);
+        dialog.addEventListener('cancel', afterClose);
+        dialog.addEventListener('click', function(e) { if (e.target === dialog) closeDialog(); });
+        document.getElementById(uid + '-dialog-close').addEventListener('click', closeDialog);
+        dialog.addEventListener('keydown', function(e) {
+            if (e.key !== 'Tab') return;
+            var items = focusables();
+            if (!items.length) return;
+            var first = items[0];
+            var last = items[items.length - 1];
+            if (e.shiftKey && document.activeElement === first) {
+                e.preventDefault();
+                last.focus();
+            } else if (!e.shiftKey && document.activeElement === last) {
+                e.preventDefault();
+                first.focus();
+            }
+        });
+    }
+
+    function getFormKey() {
+        var m = document.cookie.match(/form_key=([^;]+)/);
+        if (m) return m[1];
+        var el = document.querySelector('input[name="form_key"]');
+        return el ? el.value : '';
+    }
+
+    function showToast(msg, type) {
+        if (toastTimer) clearTimeout(toastTimer);
+        toast.className = 'sa-toast visible ' + type;
+        toast.querySelector('.sa-toast-msg').textContent = msg;
+        toast.querySelector('.sa-toast-ok').style.display = type === 'success' ? '' : 'none';
+        toast.querySelector('.sa-toast-err').style.display = type === 'error' ? '' : 'none';
+        toastTimer = setTimeout(function() { toast.className = 'sa-toast'; }, 5000);
+    }
+
+    toast.querySelector('.close').addEventListener('click', function() { toast.className = 'sa-toast'; });
+
+    if (isLoggedIn || allowGuests) {
+        var statusXhr = new XMLHttpRequest();
+        statusXhr.open('GET', '<?= $escaper->escapeJs($block->getStatusUrl()) ?>' + '?product_id=' + productId + '&_=' + Date.now());
+        statusXhr.withCredentials = true;
+        statusXhr.onload = function() {
+            try {
+                var statusData = JSON.parse(statusXhr.responseText);
+                if (statusData.subscribed) {
+                    formEl.style.display = 'none';
+                    subscribedEl.style.display = '';
+                    setTrigger(true);
+                }
+            } catch(ex) {}
+        };
+        statusXhr.send();
+    }
+
+    form.addEventListener('submit', function(e) {
+        e.preventDefault();
+        if (!isLoggedIn && !allowGuests) {
+            return;
+        }
+        var fd = new FormData();
+        fd.append('product_id', productId);
+        fd.append('form_key', getFormKey());
+        if (!isLoggedIn) {
+            var name = document.getElementById(uid + '-name');
+            var email = document.getElementById(uid + '-email');
+            if (name) fd.append('customer_name', name.value);
+            if (email) fd.append('email', email.value);
+        }
+        btn.disabled = true;
+        btn.querySelector('span').textContent = '<?= $escaper->escapeJs(__('Subscribing...')) ?>';
+
+        var xhr = new XMLHttpRequest();
+        xhr.open('POST', '<?= $escaper->escapeJs($block->getSubscribeUrl()) ?>');
+        xhr.withCredentials = true;
+        xhr.onload = function() {
+            try {
+                var data = JSON.parse(xhr.responseText);
+                if (data.success) {
+                    showToast(data.message || '<?= $escaper->escapeJs(__('Subscribed!')) ?>', 'success');
+                    formEl.style.display = 'none';
+                    subscribedEl.style.display = '';
+                    setTrigger(true);
+                } else {
+                    showToast(data.message || '<?= $escaper->escapeJs(__('Failed')) ?>', 'error');
+                }
+            } catch(ex) { showToast('<?= $escaper->escapeJs(__('An error occurred.')) ?>', 'error'); }
+            btn.disabled = false;
+            btn.querySelector('span').textContent = '<?= $escaper->escapeJs(__('Notify Me When Available')) ?>';
+        };
+        xhr.onerror = function() {
+            showToast('<?= $escaper->escapeJs(__('An error occurred.')) ?>', 'error');
+            btn.disabled = false;
+            btn.querySelector('span').textContent = '<?= $escaper->escapeJs(__('Notify Me When Available')) ?>';
+        };
+        xhr.send(fd);
+    });
+
+    if (unsubBtn) {
+        unsubBtn.addEventListener('click', function() {
+            var fd = new FormData();
+            fd.append('product_id', productId);
+            fd.append('form_key', getFormKey());
+            if (!isLoggedIn) {
+                var unsubEmail = document.getElementById(uid + '-email');
+                if (unsubEmail) fd.append('email', unsubEmail.value);
+            }
+            unsubBtn.textContent = '<?= $escaper->escapeJs(__('Removing...')) ?>';
+            unsubBtn.disabled = true;
+
+            var xhr = new XMLHttpRequest();
+            xhr.open('POST', '<?= $escaper->escapeJs($block->getUnsubscribeUrl()) ?>');
+            xhr.withCredentials = true;
+            xhr.onload = function() {
+                var data = {};
+                try { data = JSON.parse(xhr.responseText); } catch(ex) {}
+                if (data.success) {
+                    subscribedEl.style.display = 'none';
+                    formEl.style.display = '';
+                    setTrigger(false);
+                    showToast('<?= $escaper->escapeJs(__('Unsubscribed')) ?>', 'success');
+                } else {
+                    showToast(data.message || '<?= $escaper->escapeJs(__('An error occurred.')) ?>', 'error');
+                }
+                unsubBtn.textContent = '<?= $escaper->escapeJs(__('Remove')) ?>';
+                unsubBtn.disabled = false;
+            };
+            xhr.onerror = function() {
+                showToast('<?= $escaper->escapeJs(__('An error occurred.')) ?>', 'error');
+                unsubBtn.textContent = '<?= $escaper->escapeJs(__('Remove')) ?>';
+                unsubBtn.disabled = false;
+            };
+            xhr.send(fd);
+        });
+    }
+});
+</script>
